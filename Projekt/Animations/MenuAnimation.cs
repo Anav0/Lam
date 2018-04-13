@@ -6,8 +6,8 @@ namespace Projekt
 {
     public static class MenuAnimation
     {
-
-        public static void Animate(this Storyboard sb, bool direction, FrameworkElement element, double duration, double deacceleration, double acceleration)
+        public static void Animate(this Storyboard sb, bool direction, FrameworkElement element, double duration,
+            double deacceleration, double acceleration)
         {
             switch (direction)
             {
@@ -24,7 +24,6 @@ namespace Projekt
 
         public static void AnimateIn(FrameworkElement element, double duration, double acceleration)
         {
-
             var sb = new Storyboard();
             var animation = new ThicknessAnimation
             {

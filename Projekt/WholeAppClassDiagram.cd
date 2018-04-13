@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Projekt.MenuAnimation" Collapsed="true">
+    <Position X="26.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAASAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Animations\MenuAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.App" Collapsed="true">
+    <Position X="26.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.Session" Collapsed="true">
+    <Position X="26.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Classes\Session.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.RelayCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="32" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACAAQAAEAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Commands\RelayCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projekt.MainWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="32" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projekt.BasicViewModel">
+    <Position X="15.5" Y="1.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\BasicViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Projekt.SessionItemListViewModel">
+    <Position X="18" Y="3" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\SessionItemListViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.InfoWindow" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="30.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\InfoWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projekt.Classes.Pair&lt;T1, T2&gt;" Collapsed="true">
+    <Position X="28.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Classes\Pair.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.Classes.RealTimeEvaluation" Collapsed="true">
+    <Position X="30.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAAAAAAAAAAAAAAAAAAiAAAAEAAAAA=</HashCode>
+      <FileName>Classes\RealTimeEvaluation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.GUI.DataGrid" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GUI\DataGrid.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projekt.GUI.Design.DataGridDesign">
+    <Position X="23.25" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>GUI\Design\DataGridDesign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.GUI.Design.SessionItemDesign">
+    <Position X="14.5" Y="5.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>GUI\Design\SessionItemDesign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.GUI.Design.SessionItemListDesign">
+    <Position X="18.75" Y="5.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>GUI\Design\SessionItemListDesign.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.ViewModels.DataGridViewModel">
+    <Position X="23.25" Y="3" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ViewModels\DataGridViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.ViewModels.MainWindowViewModel">
+    <Position X="8.75" Y="3" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAQACAAAQAABUAAAACAIAAQIAAICAAAAAAQ=</HashCode>
+      <FileName>ViewModels\MainWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Projekt.ViewModels.SessionItemViewModel">
+    <Position X="14.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAAAQAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\SessionItemViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

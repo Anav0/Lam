@@ -2,21 +2,20 @@
 {
     public class SessionItemViewModel : BasicViewModel
     {
-
         #region Public Properties
 
         /// <summary>
-        /// Typ jaki przewidział program
+        ///     Typ jaki przewidział program
         /// </summary>
         public string PredictedType { get; set; } = "";
 
         /// <summary>
-        /// Typ jaki został nadany program
+        ///     Typ rzeczywisty
         /// </summary>
-        public string Type { get; set; } = "";
+        public string RealType { get; set; } = "";
 
         /// <summary>
-        /// Elementy sesji
+        ///     Żądania sesji sesji
         /// </summary>
         public string SessionElements { get; set; } = "";
 

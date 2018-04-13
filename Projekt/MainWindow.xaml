@@ -1,95 +1,85 @@
 ﻿<Window
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Projekt"
-        xmlns:ViewModels="clr-namespace:Projekt.ViewModels" x:Class="Projekt.MainWindow"
-        xmlns:GUI="clr-namespace:Projekt.GUI"
-        mc:Ignorable="d"
-        Title="Okno Główne" Height="480" Width="640" Background="White" 
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
-        >
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Class="Projekt.MainWindow"
+    mc:Ignorable="d"
+    Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <DockPanel Background="{StaticResource Teal400ColorBrush}"
-                    DockPanel.Dock="Left"
-                    x:Name="Menu"
-                    Margin="-230 0 0 0"
-                    Width="300">
+                   DockPanel.Dock="Left"
+                   x:Name="Menu"
+                   Margin="-230 0 0 0"
+                   Width="300">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
-                    <Button Padding="10" 
-                    Foreground="White" 
-                    Style="{StaticResource StandardOpacityButtonStyle}" 
-                    Content="Wczytaj Dane i oblicz"
-                    Command="{Binding GetDataFromFileCommand}"/>
-                    
-                    <Button Padding="10" 
-                    Foreground="White" 
-                    Style="{StaticResource StandardOpacityButtonStyle}" 
-                    Content="Wczytaj plik testowy"
-                    Command="{Binding GetDataFromFileCommand}"
-                    CommandParameter="dawdawd"/>
-                    
-                    <Button Padding="10" Foreground="White" 
-                    Style="{StaticResource StandardOpacityButtonStyle}" 
-                    Content="Pokaż nieznane żądania"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    Command="{Binding ShowUnknownReqTypesCommand}"/>
                     <Button Padding="10"
-                    Foreground="White" 
-                    Style="{StaticResource StandardOpacityButtonStyle}" 
-                    Content="Pokaż sesję"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    Command="{Binding ShowCurrentSessionsCommand}"/>
-                    <Button Padding="10" Foreground="White" 
-                    Style="{StaticResource StandardOpacityButtonStyle}" 
-                    Content="Szacuj"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                    Command="{Binding EvaluationCommand}"/>
+                            Foreground="White"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Wczytaj pliki testowe i stwórz DTMC"
+                            Command="{Binding GetDataFromFileCommand}" />
+
+                    <Button Padding="10"
+                            Foreground="White"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Wczytaj i poddaj plik ocenie"
+                            Command="{Binding GetDataFromFileCommand}"
+                            CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA"/>
+
+                    <Button Padding="10"
+                            Foreground="White"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Pokaż sesję"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                            Command="{Binding ShowCurrentSessionsCommand}" />
+
+                    <Button Padding="10" Foreground="White"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Szacuj"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                            Command="{Binding EvaluationCommand}" />
                 </StackPanel>
                 <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
                         Content="{StaticResource FontAwesomInfoIcon}"
-                        Foreground="White" 
+                        Foreground="White"
                         Margin="10"
                         Command="{Binding ShpwAppInfoCommand}"
                         FontFamily="{StaticResource FontAwesome}"
                         VerticalAlignment="Bottom"
-                        HorizontalAlignment="Left"/>
+                        HorizontalAlignment="Left" />
             </DockPanel>
             <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
-                        Content="{StaticResource FontAwesomeMenuIcon}"
-                        Foreground="White" 
-                        Margin="10"
-                        FontFamily="{StaticResource FontAwesome}"
-                        Command="{Binding ExpandMenuCommand}"
-                        CommandParameter="{Binding ElementName=Menu}"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Center"
-                       />
+                    Content="{StaticResource FontAwesomeMenuIcon}"
+                    Foreground="White"
+                    Margin="10"
+                    FontFamily="{StaticResource FontAwesome}"
+                    Command="{Binding ExpandMenuCommand}"
+                    CommandParameter="{Binding ElementName=Menu}"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center" />
 
 
         </DockPanel>
         <Grid DockPanel.Dock="Right">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
             <!--Grid zawierający tabelę z informacjami-->
             <Grid Grid.Row="0" x:Name="MyGrid">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!--DataGrids with labels-->
+                <!--TODO: NewDataGrids with labels-->
 
-                <!--<GUI:DataGridDisplayControl DataContext="{Binding DataGridDataContext}" />-->
-                <GUI:DataGridWithLabel ClickCommandParameter="{Binding RelativeSource={RelativeSource Self}}" ClickCommand="{Binding MaximizeDataGridCommand}" Margin="5" BorderThickness="0.5" BorderBrush="{StaticResource Teal100ColorBrush}" Grid.Row="0" Grid.Column="0" Label="Lista wszystkich występujących zapytań wraz z ilością występowań:" Data="{Binding ArrayOfSymbols}" Background="Transparent"/>
-                <GUI:DataGridWithLabel ClickCommandParameter="{Binding RelativeSource={RelativeSource Self}}" ClickCommand="{Binding MaximizeDataGridCommand}" Margin="5" BorderThickness="0.5" BorderBrush="{StaticResource Teal100ColorBrush}" Grid.Row="1" Grid.Column="0" Label="Prawdopodobieństwo rozpoczęcia sesji od danego typu danych:" Data="{Binding ArrayOfStartChances}" Background="Transparent"/>
+              
 
             </Grid>
         </Grid>

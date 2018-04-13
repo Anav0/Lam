@@ -1,15 +1,13 @@
-﻿using Projekt.ViewModels;
-using System.Data;
-using System.Windows.Controls;
+﻿using System.Data;
+using Projekt.ViewModels;
 
 namespace Projekt.GUI.Design
 {
-    public class NewDataGridWithLabelDesign : NewDataGridWithLabelViewModel
+    public class DataGridDesign : DataGridViewModel
     {
-        public static NewDataGridWithLabelDesign Instance => new NewDataGridWithLabelDesign();
-        public NewDataGridWithLabelDesign()
+        public DataGridDesign()
         {
-            DataTable dataTable = new DataTable("MatrixOfProbability");
+            var dataTable = new DataTable("MatrixOfProbability");
             dataTable.Columns.Add("Testowa Kolumna1", typeof(string));
             dataTable.Columns.Add("Testowa Kolumna2", typeof(string));
             dataTable.Columns.Add("Testowa Kolumna3", typeof(string));
@@ -20,9 +18,10 @@ namespace Projekt.GUI.Design
             dataTable.Rows.Add("Testowy wiersz3", typeof(string));
             dataTable.Rows.Add("Testowy wiersz4", typeof(string));
 
-            Data = dataTable.DefaultView;
-            LabelContent = "Testowy LabelContent";
-
+            DataSource = dataTable.DefaultView;
+            ColumnTitle = "Testowy columnTitle";
         }
+
+        public static DataGridDesign Instance => new DataGridDesign();
     }
 }

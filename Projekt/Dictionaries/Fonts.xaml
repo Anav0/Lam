@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Projekt"
-                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-<!--Definitions of font family-->
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!--Definitions of font family-->
     <FontFamily x:Key="FontAwesome">pack://appliction;,,,/Fonts/#FontAwesome</FontFamily>
     <FontFamily x:Key="GoogleMaterial">pack://appliction;,,,/Fonts/#FontMaterial</FontFamily>
 
@@ -20,12 +19,6 @@
     <system:String x:Key="FontAwesomeTickIcon">&#xf00c;</system:String>
     <system:String x:Key="FontAwesomeCloseIcon">&#xf00d;</system:String>
     <system:String x:Key="FontAwesomeMenuIcon">&#xf0c9;</system:String>
-    <system:String x:Key="FontAwesomInfoIcon">&#xf05a;</system:String> 
-
-
-    <system:String x:Key="GoogleMenuIcon">&#xE5D2;</system:String>
-    <system:String x:Key="GoogleFileDownloadIcon">&#xE2C4;</system:String>
-    <system:String x:Key="GoogleFileUploadIcon">&#xE2C6;</system:String>
-    <system:String x:Key="GoogleSettingsIcon">&#xE8B8;</system:String>
+    <system:String x:Key="FontAwesomInfoIcon">&#xf05a;</system:String>
 
 </ResourceDictionary>
