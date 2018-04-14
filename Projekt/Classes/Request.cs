@@ -7,7 +7,7 @@ namespace Projekt
 
         public Request()
         {
-            NameType = "Unkonown";
+            NameType = "Unknown";
             Quantity = 0;
             StarChances = 0;
         }

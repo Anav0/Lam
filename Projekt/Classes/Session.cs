@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Projekt.Classes;
 
 namespace Projekt
@@ -46,7 +47,7 @@ namespace Projekt
         public double Kpercent { get; set; }
 
         /// <summary>
-        /// Liczba żądań jakie mają zostaćprzepracowane aby dokonać oceny
+        /// Liczba żądań jakie mają zostać przepracowane aby dokonać oceny
         /// </summary>
         public int K { get; set; }
 
@@ -59,25 +60,30 @@ namespace Projekt
 
         private double Rresult { get; set; }
 
+        /// <summary>
+        /// Mówi nam czy sesja została zaklasyfikowana
+        /// </summary>
         public bool wasClassified { get; set; } = false;
 
         #endregion
 
         #region Public methods
 
-      
-
-        public void PerformOnlineDetection(List<SessionsGroup> ListOfDtmc)
+        /// <summary>
+        ///  Przeprowadza ocenę sesji po każdym nowym żądaniu
+        /// </summary>
+        /// <param name="listOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
+        public void PerformOnlineDetection(List<SessionsGroup> listOfDtmc)
         {
             if (Requests.Count <= 0) return;
 
             double result = 0;
 
-            foreach (var Dtmc in ListOfDtmc)
+            foreach (var dtmc in listOfDtmc)
             {
-                result += GetLogPr(Dtmc, Requests[Requests.Count-1]);
+                result += GetLogPr(dtmc, Requests[Requests.Count-1]);
 
-                if (Dtmc.SessionsList[0].RealType == "R")
+                if (dtmc.SessionsList[0].RealType == "R")
                 {
                     if (result > Rresult || Rresult == 0)
                     {
@@ -115,7 +121,7 @@ namespace Projekt
 
             if (Requests.Count == NumberOfRequests && !wasClassified)
             {
-                PerformOfflineDetection(ListOfDtmc, 0);
+                PerformOfflineDetection(listOfDtmc);
             }
 
             if (PredictedType == "H" || PredictedType == "R")
@@ -125,12 +131,42 @@ namespace Projekt
 
         }
 
+        /// <summary>
+        /// Dodaje nowe żądanie do sesji
+        /// </summary>
+        /// <param name="request">Nazwa żądania</param>
+        public void FillSession(string request)
+        {
+            if (!string.IsNullOrEmpty(request))
+            {
+                request = request.First().ToString().ToUpper() + request.Substring(1);
+
+                if (Requests.Count <= 0)
+                {
+                    // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType R lub H
+                    RealType = request;
+                }
+                else
+                {
+                    if (request == RealType) return;
+
+                    Requests.Add(request);
+                }
+            }
+        }
         #endregion
 
         #region Private Methods
 
-        public void PerformOfflineDetection(List<SessionsGroup> ListOfDtmc, int startIndex)
+        /// <summary>
+        /// Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
+        /// </summary>
+        /// <param name="ListOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
+        private void PerformOfflineDetection(List<SessionsGroup> ListOfDtmc)
         {
+            Rresult = 0;
+            Hresult = 0;
+
             foreach (var Dtmc in ListOfDtmc)
             {
                 double result = 0;
@@ -152,8 +188,7 @@ namespace Projekt
                     result = 0;
                 }
 
-                //Dla każdego obecnego żądania
-                for (int i = startIndex; i < Requests.Count; i++)
+                for (int i = 0; i < Requests.Count; i++)
                 {
                     result += GetLogPr(Dtmc, Requests[i]);
 
@@ -175,14 +210,15 @@ namespace Projekt
             }
 
             PredictedType = Rresult < Hresult ? "H" : "R";
+            wasClassified = true;
         }
 
-        private double GetLogPr(SessionsGroup Dtmc, string req)
+        private double GetLogPr(SessionsGroup Dtmc, string requestName)
         {
             double result = 0;
 
-            var firstIndex = Dtmc.GroupUniqueRequest.IndexOf(Dtmc.GroupUniqueRequest.Find(x => x.NameType == req));
-            var nextIndex = Requests.IndexOf(req);
+            var firstIndex = Dtmc.GroupUniqueRequest.IndexOf(Dtmc.GroupUniqueRequest.Find(x => x.NameType == requestName));
+            var nextIndex = Requests.IndexOf(requestName);
 
             if (!(nextIndex >= Requests.Count - 1))
             {

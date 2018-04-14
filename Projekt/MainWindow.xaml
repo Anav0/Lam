@@ -7,28 +7,31 @@
     mc:Ignorable="d"
     Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <DockPanel Background="{StaticResource Teal400ColorBrush}"
+        <Border>
+            <DockPanel Background="{StaticResource Teal400ColorBrush}"
                    DockPanel.Dock="Left"
                    x:Name="Menu"
                    Margin="-230 0 0 0"
                    Width="300">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
-                    <Button Padding="10"
+
+
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
+                        <Button Padding="10"
                             Foreground="White"
                             Style="{StaticResource StandardOpacityButtonStyle}"
                             Content="Wczytaj pliki testowe i stwórz DTMC"
                             Command="{Binding GetDataFromFileCommand}" />
 
-                    <Button Padding="10"
+                        <Button Padding="10"
                             Foreground="White"
                             Style="{StaticResource StandardOpacityButtonStyle}"
                             Content="Wczytaj i poddaj sesję ocenie"
                             Command="{Binding GetDataFromFileCommand}"
                             CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA"/>
 
-                </StackPanel>
-                <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
+                    </StackPanel>
+                    <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
                         Content="{StaticResource FontAwesomInfoIcon}"
                         Foreground="White"
                         Margin="10"
@@ -36,8 +39,8 @@
                         FontFamily="{StaticResource FontAwesome}"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Left"/>
-            </DockPanel>
-            <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
+                </DockPanel>
+                <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
                     Content="{StaticResource FontAwesomeMenuIcon}"
                     Foreground="White"
                     Margin="10"
@@ -48,7 +51,12 @@
                     HorizontalAlignment="Center" />
 
 
-        </DockPanel>
+
+            </DockPanel>
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.2"/>
+            </Border.Effect>
+        </Border>
         <Grid DockPanel.Dock="Right">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*" />

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -9,8 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
-using Projekt.Classes;
-using Projekt.GUI;
+
 
 namespace Projekt.ViewModels
 {
@@ -80,13 +77,12 @@ namespace Projekt.ViewModels
             sb.Animate(IsMenuExpand, menu, 0.3, 0.2, 0.2);
         }
 
-
         private void GetDataFromFile(object obj)
         {
             DialogWindow Kwindow = new DialogWindow();
 
-            //Just some bools bro
-            bool isItFirstRequest = true, isTestFile = false;
+            //Just some bool bro
+            bool isTestFile = false;
 
             //Dialog wczytujący plik
             var openFileDialog = new OpenFileDialog
@@ -108,10 +104,10 @@ namespace Projekt.ViewModels
                     foreach (var file in openFileDialog.FileNames)
                     {
                         SessionsGroup currentGroup = new SessionsGroup();
-                        var arrayOfLines = File.ReadAllLines(file);
+                        var linesInFile = File.ReadAllLines(file);
 
                         //Jeśli pusty to krzycz
-                        if (arrayOfLines.Length == 0)
+                        if (linesInFile.Length == 0)
                         {
                             MessageBox.Show("W pliku nie było danych które można by wczytać", "Błąd",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
@@ -119,11 +115,10 @@ namespace Projekt.ViewModels
                         else
                         {
                             //Linijka po linijce AKA sesja po sesji
-                            foreach (var line in arrayOfLines)
+                            foreach (var line in linesInFile)
                             {
                                 if (!string.IsNullOrEmpty(line))
                                 {
-
                                     Session currentSession = new Session();
                                     
                                     var arrayOfRequests = line.Split();
@@ -142,37 +137,14 @@ namespace Projekt.ViewModels
                                     foreach (var req in arrayOfRequests)
                                     {
                                         Request currentRequest = new Request();
-                                        if(string.IsNullOrEmpty(req)) continue;
+                                        currentSession.FillSession(req);
+
                                         var req2 = req.First().ToString().ToUpper() + req.Substring(1);
+                                        currentRequest.NameType = req2;
 
-                                        if (isItFirstRequest)
-                                        {
-                                            // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType R lub H
-                                            currentSession.RealType = req2;
-                                            isItFirstRequest = false;
-                                        }
-                                        else
-                                        {
-                                            currentRequest.NameType = req2;
+                                        if (req2 == currentSession.RealType) continue;
 
-                                            if (req2 == currentSession.RealType) continue;
-                                            currentSession.Requests.Add(currentRequest.NameType);
-
-                                            // Jeśli żądanie nie wystąpiło wcześniej to:
-                                            if (currentGroup.GroupUniqueRequest.FindAll(x => x.NameType == req2)
-                                                    .Count <= 0)
-                                            {
-                                                currentRequest.Quantity = 1;
-                                                currentGroup.GroupUniqueRequest.Add(currentRequest);
-                                            }
-                                            // Jeśli wystąpiło
-                                            else
-                                            {
-                                                currentGroup.GroupUniqueRequest
-                                                    .Find(x => x.NameType == currentRequest.NameType).Quantity++;
-                                            }
-
-                                        }
+                                        currentGroup.AddUniqueRequest(currentRequest);
 
                                         if (isTestFile && !currentSession.wasClassified)
                                         {
@@ -182,7 +154,6 @@ namespace Projekt.ViewModels
 
                                     currentGroup.SessionsList.Add(currentSession);
 
-                                    isItFirstRequest = true;
                                 }
                             }
                             //Sortuje listę występujących żądań
@@ -273,7 +244,6 @@ namespace Projekt.ViewModels
             float incorrectHits = 0;
             var text = "";
             int index = 1;
-            int unclassified = 0;
             string k = "0%";
             string d = "0";
             float CorrectHitsProcent = 0;
@@ -298,7 +268,6 @@ namespace Projekt.ViewModels
                         CorrectHitsProcent = correctHits / @group.SessionsList.Count * 100;
                         IncorrectHitsProcent = incorrectHits / @group.SessionsList.Count * 100;
                         k = session.Kpercent + "%";
-                        if (!session.wasClassified) unclassified++;
                     }
 
                     lista.Add(text = "Dla " + index + " wczytanej grupy");
@@ -306,8 +275,6 @@ namespace Projekt.ViewModels
                     lista.Add(text = "Procent przepracowanych sesji: " + k);
                     text = "";
                     lista.Add(text = "Znaleziono: " + group.SessionsList.Count + " sesji");
-                    text = "";
-                    lista.Add(text = "Niesklasyfikowano: " + unclassified + " sesji");
                     text = "";
                     text = "Liczba poprawnych trafień: " + correctHits + " co stanowi: " + CorrectHitsProcent + "%";
                     lista.Add(text);

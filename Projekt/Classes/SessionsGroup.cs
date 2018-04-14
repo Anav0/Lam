@@ -40,6 +40,24 @@ namespace Projekt
             CreateMatrix();
         }
 
+        public void AddUniqueRequest(Request currentRequest)
+        {
+
+            // Jeśli żądanie nie wystąpiło wcześniej to:
+            if (GroupUniqueRequest.FindAll(x => x.NameType == currentRequest.NameType)
+                    .Count <= 0)
+            {
+                currentRequest.Quantity = 1;
+                GroupUniqueRequest.Add(currentRequest);
+            }
+            // Jeśli wystąpiło
+            else
+            {
+                GroupUniqueRequest
+                    .Find(x => x.NameType == currentRequest.NameType).Quantity++;
+            }
+        }
+
         #endregion
 
         #region Private Methods
