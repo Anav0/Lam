@@ -13,5 +13,6 @@ namespace Projekt
             InitializeComponent();
             DataContext = new MainWindowViewModel();
         }
+
     }
 }

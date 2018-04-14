@@ -87,4 +87,7 @@
     <Color x:Key="TealButtonColor1">#1DE9B6</Color>
     <SolidColorBrush x:Key="TealButtonColor1Brush" Color="{StaticResource TealButtonColor1}" />
 
+    <Color x:Key="NoContentGrayColor">#FFC0C0C0</Color>
+    <SolidColorBrush x:Key="NoContentGrayColorBrush" Color="{StaticResource NoContentGrayColor}" />
+
 </ResourceDictionary>

@@ -8,6 +8,8 @@ namespace Projekt
     /// </summary>
     public partial class DialogWindow : Window
     {
+        public DialogWindowViewModel viewmodel { get; set; }
+
         public DialogWindow()
         {
             InitializeComponent();

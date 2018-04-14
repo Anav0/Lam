@@ -32,7 +32,6 @@ namespace Projekt
             GroupUniqueRequest = new List<Request>();
         }
 
-
         #region Public Methods
 
         public void CalculateDTMC()

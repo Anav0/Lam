@@ -29,6 +29,6 @@
                 HorizontalAlignment="Right" 
                 Margin="12"
                 Command="{Binding ButtonActionCommand}"
-                CommandParameter="Window"/>
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
     </StackPanel>
 </Window>

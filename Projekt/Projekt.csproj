@@ -99,7 +99,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Pair.cs" />
-    <Compile Include="Classes\RealTimeEvaluation.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\SessionsGroup.cs" />
@@ -224,7 +223,9 @@
   <ItemGroup>
     <SplashScreen Include="Resources\splashScreen.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Sad_Cloud_96px.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.0.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.0.3\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

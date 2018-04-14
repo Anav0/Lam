@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Google.Apis.Util;
+
 
 namespace Projekt
 {
@@ -23,7 +23,7 @@ namespace Projekt
         public void CloseAction(Object obj)
         {
             Window window = obj as Window;
-            window.Close();
+            window?.Close();
         }
 
     }

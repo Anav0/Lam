@@ -19,23 +19,15 @@ namespace Projekt.ViewModels
         public MainWindowViewModel()
         {
             //Inicjalizacja komend
-            ShowUnknownReqTypesCommand = new RelayCommand(ShowUnknownReqTypes);
-            ShowCurrentSessionsCommand = new RelayCommand(ShowCurrentSessions);
             ExpandMenuCommand = new RelayCommand(AnimateMenu);
             GetDataFromFileCommand = new RelayCommand(GetDataFromFile);
+
+            DTMCList = new List<SessionsGroup>();
+            TestGroupsList = new List<SessionsGroup>();
         }
 
         #region Public Command
 
-        /// <summary>
-        ///     Komenda pokazująca nierozpoznane typy żądań
-        /// </summary>
-        public ICommand ShowUnknownReqTypesCommand { get; set; }
-
-        /// <summary>
-        ///     Komenda pokazująca obecne sesję w nowym oknie
-        /// </summary>
-        public ICommand ShowCurrentSessionsCommand { get; set; }
 
         /// <summary>
         ///     Komenda wysuwająca menu bocznego
@@ -76,56 +68,6 @@ namespace Projekt.ViewModels
         #region Command Methods
 
         /// <summary>
-        ///     Metoda wywietlająca w nowym oknie listę obecnych sesji
-        /// </summary>
-        /// <param name="obj"></param>
-        private void ShowCurrentSessions(object obj)
-        {
-
-            //if (CurrentSessions.Count > 0)
-            //{
-            //    //Okno w którym pokażemy sesję
-            //    var okienko = new InfoWindow
-            //    {
-            //        Title = "Wynik",
-            //        WindowStartupLocation = WindowStartupLocation.CenterOwner,
-            //        DataContext = this,
-            //        Width = 800,
-            //        Height = 600
-            //    };
-
-            //    // kontekst dla wyświetlanej w oknie listy
-            //    var listDataContext = new List<SessionItemViewModel>();
-
-            //    var list = new SessionItemList {DataContext = listDataContext};
-
-
-            //    foreach (var session in CurrentSessions)
-            //    {
-            //        var itemDataContext = new SessionItemViewModel();
-            //        var currentSession = session;
-            //        var text = "";
-
-            //        foreach (var element in currentSession.Requests) text += element.item1 + " ";
-
-            //        itemDataContext.PredictedType = session.PredictedType ?? "-";
-            //        itemDataContext.RealType = session.RealType ?? "-";
-            //        itemDataContext.SessionElements = text;
-
-            //        listDataContext.Add(itemDataContext);
-            //    }
-
-            //    InfoWindowContent = list;
-            //    okienko.ShowDialog();
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Nie ma sesji które mogły by zostać pokazane", "Alpaka", MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //}
-        }
-
-        /// <summary>
         ///     Metoda wykonująca animację menu
         /// </summary>
         /// <param name="parameter"></param>
@@ -141,10 +83,7 @@ namespace Projekt.ViewModels
 
         private void GetDataFromFile(object obj)
         {
-            SessionsGroup currentGroup = new SessionsGroup();
-
-            //TODO: USUŃ PO TEŚCIE
-            ShowParameterDialog();
+            DialogWindow Kwindow = new DialogWindow();
 
             //Just some bools bro
             bool isItFirstRequest = true, isTestFile = false;
@@ -160,6 +99,7 @@ namespace Projekt.ViewModels
             {
                 isTestFile = true;
                 openFileDialog.Multiselect = false;
+                Kwindow = CreateParameterDialog();
             }
 
             try
@@ -167,6 +107,7 @@ namespace Projekt.ViewModels
                 if (openFileDialog.ShowDialog() == true)
                     foreach (var file in openFileDialog.FileNames)
                     {
+                        SessionsGroup currentGroup = new SessionsGroup();
                         var arrayOfLines = File.ReadAllLines(file);
 
                         //Jeśli pusty to krzycz
@@ -183,20 +124,30 @@ namespace Projekt.ViewModels
                                 if (!string.IsNullOrEmpty(line))
                                 {
 
-                                    //TODO : Można zrobić przez GroupBy
-
                                     Session currentSession = new Session();
+                                    
                                     var arrayOfRequests = line.Split();
+                                    arrayOfRequests = arrayOfRequests.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                                    if (isTestFile)
+                                    {
+                                        currentSession.Kpercent =
+                                            Double.Parse(Kwindow.viewmodel.InsertValue);
+
+                                        currentSession.K = (int)((currentSession.Kpercent / 100) * arrayOfRequests.Length-1);
+                                        currentSession.NumberOfRequests = arrayOfRequests.Length - 1;
+                                    }
 
                                     //Dla każdego żądania w sesji
                                     foreach (var req in arrayOfRequests)
                                     {
                                         Request currentRequest = new Request();
+                                        if(string.IsNullOrEmpty(req)) continue;
                                         var req2 = req.First().ToString().ToUpper() + req.Substring(1);
 
                                         if (isItFirstRequest)
                                         {
-                                            // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType
+                                            // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType R lub H
                                             currentSession.RealType = req2;
                                             isItFirstRequest = false;
                                         }
@@ -222,6 +173,11 @@ namespace Projekt.ViewModels
                                             }
 
                                         }
+
+                                        if (isTestFile && !currentSession.wasClassified)
+                                        {
+                                            PerformOnlineDetection(currentSession);
+                                        }
                                     }
 
                                     currentGroup.SessionsList.Add(currentSession);
@@ -243,8 +199,7 @@ namespace Projekt.ViewModels
                             else
                             {
                                 TestGroupsList.Add(currentGroup);
-                                //TODO: Zmień lokalizację komendy niżej w odpowiednie miejsce
-                                ShowParameterDialog();
+                                SavePredictedResults(TestGroupsList);
                             }
                         }
                     }
@@ -259,102 +214,114 @@ namespace Projekt.ViewModels
             }
         }
 
-        private void ShowParameterDialog()
+        private void PerformOnlineDetection(Session currentSession)
+        {
+
+            if (DTMCList != null && DTMCList.Count >= 2)
+            {
+                try
+                {
+                    currentSession.PerformOnlineDetection(DTMCList);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(
+                        "Nieprawidłowy argument " + ex.Message,
+                        "Wczytywanie z pliku", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Show(
+                        "Nieprawidłowy format " + ex.Message,
+                        "Wczytywanie z pliku", MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Nie można poddać sesji ocenie gdyż nie wczytano wcześniej pików testowych",
+                    "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+        private DialogWindow CreateParameterDialog()
         {
             DialogWindow window = new DialogWindow();
-            DialogWindowViewModel viewModel = new DialogWindowViewModel
+            DialogWindowViewModel _viewModel = new DialogWindowViewModel
             {
                 Message = "Podaj procentową wartość jako ilość żądań z sesji jakie program ma przepracowaćaby ocenić czy sesja jest sesją R czy H",
                 InsertValue = "50",
                 ButtonContent = "Zatwierdź"
             };
+            window.viewmodel = _viewModel;
+            window.DataContext = _viewModel;
 
-            window.DataContext = viewModel;
-
-
-            window.ShowDialog();
+            return window;
         }
-
-
-        /// <summary>
-        ///     Pokazuję okno z nieznanymi typami żądań
-        /// </summary>
-        /// <param name="obj"></param>
-        private void ShowUnknownReqTypes(object obj)
-        {
-            //if (ArrayOfUnknownTypes.Count == 0)
-            //{
-            //    MessageBox.Show("Nie ma nieznanych typów żądań", "Info", MessageBoxButton.OK,
-            //        MessageBoxImage.Information);
-            //}
-            //else
-            //{
-            //    var listBox = new ListBox();
-            //    var okienko = new InfoWindow();
-            //    okienko.DataContext = this;
-            //    okienko.Title = "Lista nieznanych typów";
-            //    okienko.ShowInTaskbar = false;
-
-            //    foreach (var type in ArrayOfUnknownTypes) listBox.Items.Add(type);
-            //    InfoWindowContent = listBox;
-            //    okienko.ShowDialog();
-            //}
-        }
-
 
         #endregion
 
         #region Private Methods
 
-        private void SavePredictedResults(SessionsGroup Dtmc)
+        private void SavePredictedResults(List<SessionsGroup> groupList)
         {
-            //var CurrentSession = new Session();
-            //var Lista = new List<string>();
-            //float CorrectHits = 0;
-            //float CorrectHitsProcent = 0;
-            //float IncorrectHitsProcent = 0;
-            //float IncorrectHits = 0;
-            //var text = "";
+            var lista = new List<string>();
+            float correctHits = 0;
+            float incorrectHits = 0;
+            var text = "";
+            int index = 1;
+            int unclassified = 0;
+            string k = "0%";
+            string d = "0";
+            float CorrectHitsProcent = 0;
+            float IncorrectHitsProcent = 0;
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt|C# file (*.cs)|*.cs";
 
-            //var saveFileDialog = new SaveFileDialog();
-            //saveFileDialog.Filter = "Text file (*.txt)|*.txt|C# file (*.cs)|*.cs";
 
+            if (saveFileDialog.ShowDialog() == true)
+            {
 
-            //if (saveFileDialog.ShowDialog() == true)
-            //    if (saveFileDialog.FileName != null)
-            //    {
-            //        Lista.Add(text = "Znaleziono: " + CurrentSessions.Count);
-            //        text = "";
-            //        foreach (var session in CurrentSessions)
-            //        {
-            //            if (session.PredictedType == session.RealType)
-            //                CorrectHits++;
-            //            else
-            //                IncorrectHits++;
+                foreach (var group in groupList)
+                {
+                    foreach (var session in group.SessionsList)
+                    {
 
-            //            CurrentSession = session;
-            //            text += session.RealType + " ";
-            //            text += session.PredictedType + " ";
-            //            foreach (var request in CurrentSession.Requests) text += request.item1 + " ";
-            //            Lista.Add(text);
-            //            text = "";
-            //        }
+                        if (session.PredictedType == session.RealType)
+                            correctHits++;
+                        else
+                            incorrectHits++;
 
-            //        CorrectHitsProcent = CorrectHits / CurrentSessions.Count * 100;
-            //        IncorrectHitsProcent = IncorrectHits / CurrentSessions.Count * 100;
+                        CorrectHitsProcent = correctHits / @group.SessionsList.Count * 100;
+                        IncorrectHitsProcent = incorrectHits / @group.SessionsList.Count * 100;
+                        k = session.Kpercent + "%";
+                        if (!session.wasClassified) unclassified++;
+                    }
 
-            //        text = "Liczba poprawnych trafień: " + CorrectHits + " co stanowi: " + CorrectHitsProcent + "%";
-            //        Lista.Add(text);
-            //        text = "Liczba niepoprawnych trafień: " + IncorrectHits + " co stanowi: " + IncorrectHitsProcent +
-            //               "%";
-            //        Lista.Add(text);
-            //        File.WriteAllLines(saveFileDialog.FileName, Lista);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Nie udało się zapisać wyników do pliku tekstowego", "Błąd", MessageBoxButton.OK,
-            //            MessageBoxImage.Error);
-            //    }
+                    lista.Add(text = "Dla " + index + " wczytanej grupy");
+                    text = "";
+                    lista.Add(text = "Procent przepracowanych sesji: " + k);
+                    text = "";
+                    lista.Add(text = "Znaleziono: " + group.SessionsList.Count + " sesji");
+                    text = "";
+                    lista.Add(text = "Niesklasyfikowano: " + unclassified + " sesji");
+                    text = "";
+                    text = "Liczba poprawnych trafień: " + correctHits + " co stanowi: " + CorrectHitsProcent + "%";
+                    lista.Add(text);
+                    text = "Liczba niepoprawnych trafień: " + incorrectHits + " co stanowi: " + IncorrectHitsProcent +
+                           "%";
+
+                    lista.Add(text);
+
+                    index++;
+                }
+
+                File.WriteAllLines(saveFileDialog.FileName, lista);
+
+            }
 
         }
 

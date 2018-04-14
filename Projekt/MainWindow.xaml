@@ -23,22 +23,10 @@
                     <Button Padding="10"
                             Foreground="White"
                             Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="Wczytaj i poddaj plik ocenie"
+                            Content="Wczytaj i poddaj sesję ocenie"
                             Command="{Binding GetDataFromFileCommand}"
                             CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA"/>
 
-                    <Button Padding="10"
-                            Foreground="White"
-                            Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="Pokaż sesję"
-                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                            Command="{Binding ShowCurrentSessionsCommand}" />
-
-                    <Button Padding="10" Foreground="White"
-                            Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="Szacuj"
-                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                            Command="{Binding EvaluationCommand}" />
                 </StackPanel>
                 <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
                         Content="{StaticResource FontAwesomInfoIcon}"
@@ -47,7 +35,7 @@
                         Command="{Binding ShpwAppInfoCommand}"
                         FontFamily="{StaticResource FontAwesome}"
                         VerticalAlignment="Bottom"
-                        HorizontalAlignment="Left" />
+                        HorizontalAlignment="Left"/>
             </DockPanel>
             <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
                     Content="{StaticResource FontAwesomeMenuIcon}"
@@ -69,17 +57,16 @@
 
             <!--Grid zawierający tabelę z informacjami-->
             <Grid Grid.Row="0" x:Name="MyGrid">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
                 <!--TODO: NewDataGrids with labels-->
-
-              
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image Source="Resources/Sad_Cloud_96px.png" Width="96" Height="96" />
+                    <Label Content="Make this screen great again!" 
+                           FontWeight="DemiBold"
+                           Foreground="{StaticResource NoContentGrayColorBrush}"
+                           HorizontalAlignment="Center"
+                           FontSize="26"/>
+                </StackPanel>
 
             </Grid>
         </Grid>
