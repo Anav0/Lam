@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
+using Projekt.GUI.UserControls;
 
 
 namespace Projekt.ViewModels
@@ -21,6 +22,16 @@ namespace Projekt.ViewModels
 
             DTMCList = new List<SessionsGroup>();
             TestGroupsList = new List<SessionsGroup>();
+
+            EndResultsViewModel viewmodel = new EndResultsViewModel
+            {
+                FailurePercent = 50,
+                SucessPercent = 50,
+                Title = "Tu pojawią się obliczone wyniki",
+                SessionsCount = 25000,
+                KPercent = 75
+            };
+            MainContent = new EndResultsControl(viewmodel);
         }
 
         #region Public Command
@@ -59,7 +70,11 @@ namespace Projekt.ViewModels
         /// Lista zawierająca wytrenowane grupy
         /// </summary>
         public List<SessionsGroup> TestGroupsList { get; set; }
-
+        
+        /// <summary>
+        /// Content wyświetlany na ekranie głównym
+        /// </summary>
+        public UserControl MainContent { get; set; }
         #endregion
 
         #region Command Methods
@@ -80,6 +95,7 @@ namespace Projekt.ViewModels
         private void GetDataFromFile(object obj)
         {
             DialogWindow Kwindow = new DialogWindow();
+            //DTMCList = new List<SessionsGroup>();
 
             //Just some bool bro
             bool isTestFile = false;
@@ -224,7 +240,7 @@ namespace Projekt.ViewModels
             DialogWindowViewModel _viewModel = new DialogWindowViewModel
             {
                 Message = "Podaj procentową wartość jako ilość żądań z sesji jakie program ma przepracowaćaby ocenić czy sesja jest sesją R czy H",
-                InsertValue = "50",
+                InsertValue = "75",
                 ButtonContent = "Zatwierdź"
             };
             window.viewmodel = _viewModel;

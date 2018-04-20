@@ -51,32 +51,19 @@
                     HorizontalAlignment="Center" />
 
 
-
             </DockPanel>
             <Border.Effect>
                 <DropShadowEffect Opacity="0.2"/>
             </Border.Effect>
         </Border>
         <Grid DockPanel.Dock="Right">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <!--Grid zawierający tabelę z informacjami-->
-            <Grid Grid.Row="0" x:Name="MyGrid">
 
-                <!--TODO: NewDataGrids with labels-->
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Image Source="Resources/Sad_Cloud_96px.png" Width="96" Height="96" />
-                    <Label Content="Make this screen great again!" 
-                           FontWeight="DemiBold"
-                           Foreground="{StaticResource NoContentGrayColorBrush}"
-                           HorizontalAlignment="Center"
-                           FontSize="26"/>
-                </StackPanel>
+            <ContentPresenter Content="{Binding MainContent}"/>
 
-            </Grid>
+
+
+
         </Grid>
     </DockPanel>
 </Window>

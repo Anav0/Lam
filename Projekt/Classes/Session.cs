@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Projekt.Classes;
+using System.Windows;
 
 namespace Projekt
 {
@@ -54,7 +55,7 @@ namespace Projekt
         /// <summary>
         /// Różnica między LogR i LogH wartości powinny być z przedziału 0,5 a 2
         /// </summary>
-        public static double Delta { get; set; } = 0.5;
+        public static double Delta { get; set; } = 1;
 
         private double Hresult { get; set; }
 
@@ -81,7 +82,9 @@ namespace Projekt
 
             foreach (var dtmc in listOfDtmc)
             {
-                result += GetLogPr(dtmc, Requests[Requests.Count-1]);
+                result += GetStartChanceValue(dtmc);
+
+                result += GetLogPr(dtmc, Requests[Requests.Count - 1]);
 
                 if (dtmc.SessionsList[0].RealType == "R")
                 {
@@ -131,6 +134,30 @@ namespace Projekt
 
         }
 
+        private double GetStartChanceValue(SessionsGroup dtmc)
+        {
+            double result = 0;
+            try
+            {
+                Request firstElement = dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
+
+                if (firstElement == null)
+                {
+                    result = 0.00001;
+                }
+                else
+                {
+                    result = firstElement.StarChances == 0 ? 0.00001 : Math.Log10(firstElement.StarChances);
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                result = 0;
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Dodaje nowe żądanie do sesji
         /// </summary>
@@ -141,15 +168,13 @@ namespace Projekt
             {
                 request = request.First().ToString().ToUpper() + request.Substring(1);
 
-                if (Requests.Count <= 0)
+                if (request == "H" || request == "R")
                 {
                     // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType R lub H
                     RealType = request;
                 }
                 else
                 {
-                    if (request == RealType) return;
-
                     Requests.Add(request);
                 }
             }
@@ -170,23 +195,7 @@ namespace Projekt
             foreach (var Dtmc in ListOfDtmc)
             {
                 double result = 0;
-                try
-                {
-                    Request firstElement = Dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
-
-                    if (firstElement == null)
-                    {
-                        result = 0.00001;
-                    }
-                    else
-                    {
-                        result = firstElement.StarChances == 0 ? 0.00001 : Math.Log10(firstElement.StarChances);
-                    }
-                }
-                catch (ArgumentNullException ex)
-                {
-                    result = 0;
-                }
+                result += GetStartChanceValue(Dtmc);
 
                 for (int i = 0; i < Requests.Count; i++)
                 {
