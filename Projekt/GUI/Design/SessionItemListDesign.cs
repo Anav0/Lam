@@ -5,9 +5,6 @@ namespace Projekt.GUI.Design
 {
     public class SessionItemListDesign : SessionItemListViewModel
     {
-
-        public static SessionItemListDesign Instance => new SessionItemListDesign();
-
         public SessionItemListDesign()
         {
             ItemList = new List<SessionItemViewModel>
@@ -35,5 +32,6 @@ namespace Projekt.GUI.Design
             };
         }
 
+        public static SessionItemListDesign Instance => new SessionItemListDesign();
     }
 }

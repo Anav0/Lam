@@ -1,10 +1,7 @@
-﻿using System;
-
-namespace Projekt
+﻿namespace Projekt.Classes
 {
     public class Request
     {
-
         public Request()
         {
             NameType = "Unknown";
@@ -13,24 +10,23 @@ namespace Projekt
         }
 
         /// <summary>
-        /// Nazwa żądania np: txt
+        ///     Nazwa żądania np: txt
         /// </summary>
-        public String NameType { get; set; }
+        public string NameType { get; set; }
 
         /// <summary>
-        /// Ilość wystąpień żądania w danej grupie
+        ///     Ilość wystąpień żądania w danej grupie
         /// </summary>
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Szansa że sesja rozpocznie się od tego zapytania
+        ///     Szansa że sesja rozpocznie się od tego zapytania
         /// </summary>
         public double StarChances { get; set; }
 
         /// <summary>
-        /// Ile sesji rozpoczyna się od tego żądania
+        ///     Ile sesji rozpoczyna się od tego żądania
         /// </summary>
         public int SessionStarts { get; set; }
-
     }
 }

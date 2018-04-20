@@ -1,11 +1,12 @@
-﻿<Window x:Class="Projekt.DialogWindow"
+﻿<Window x:Class="Projekt.GUI.Windows.DialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:design="clr-namespace:Projekt"
+        xmlns:design1="clr-namespace:Projekt.GUI.Design"
         mc:Ignorable="d"
-        d:DataContext="{x:Static design:DialogWindowDesign.Instance}"
+        d:DataContext="{x:Static design1:DialogWindowDesign.Instance}"
         Title="Wprowadź parametry" Height="250" Width="400" ShowInTaskbar="False"
         ResizeMode="NoResize"
         Name="Window"
@@ -13,22 +14,23 @@
 
     <StackPanel Orientation="Vertical">
         <TextBlock FontWeight="UltraLight"
-                   TextWrapping="Wrap" 
+                   TextWrapping="Wrap"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   FontSize="12" 
+                   FontSize="12"
                    Margin="8"
-                   Foreground="SlateGray" 
-                   Text="{Binding Message}"/>
+                   Foreground="SlateGray"
+                   Text="{Binding Message}" />
 
-        <TextBox Style="{StaticResource BasicTextBox}" Text="{Binding InsertValue}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox Style="{StaticResource BasicTextBox}" Text="{Binding InsertValue}" HorizontalAlignment="Center"
+                 VerticalAlignment="Center" />
         <Button Content="{Binding ButtonContent}"
-                Style="{StaticResource StandardOpacityButtonStyle}" 
-                Foreground="SlateGray" 
-                VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right" 
+                Style="{StaticResource StandardOpacityButtonStyle}"
+                Foreground="SlateGray"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
                 Margin="12"
                 Command="{Binding ButtonActionCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
     </StackPanel>
 </Window>

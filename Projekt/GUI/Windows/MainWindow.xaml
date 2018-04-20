@@ -3,65 +3,63 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Class="Projekt.MainWindow"
+    x:Class="Projekt.GUI.Windows.MainWindow"
     mc:Ignorable="d"
     Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Border>
             <DockPanel Background="{StaticResource Teal400ColorBrush}"
-                   DockPanel.Dock="Left"
-                   x:Name="Menu"
-                   Margin="-230 0 0 0"
-                   Width="300">
+                       DockPanel.Dock="Left"
+                       x:Name="Menu"
+                       Margin="-230 0 0 0"
+                       Width="300">
 
 
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
                         <Button Padding="10"
-                            Foreground="White"
-                            Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="Wczytaj pliki testowe i stwórz DTMC"
-                            Command="{Binding GetDataFromFileCommand}" />
+                                Foreground="White"
+                                Style="{StaticResource StandardOpacityButtonStyle}"
+                                Content="Wczytaj pliki testowe i stwórz DTMC"
+                                Command="{Binding GetDataFromFileCommand}" />
 
                         <Button Padding="10"
-                            Foreground="White"
-                            Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="Wczytaj i poddaj sesję ocenie"
-                            Command="{Binding GetDataFromFileCommand}"
-                            CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA"/>
+                                Foreground="White"
+                                Style="{StaticResource StandardOpacityButtonStyle}"
+                                Content="Wczytaj i poddaj sesję ocenie"
+                                Command="{Binding GetDataFromFileCommand}"
+                                CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA" />
 
                     </StackPanel>
                     <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
-                        Content="{StaticResource FontAwesomInfoIcon}"
-                        Foreground="White"
-                        Margin="10"
-                        Command="{Binding ShpwAppInfoCommand}"
-                        FontFamily="{StaticResource FontAwesome}"
-                        VerticalAlignment="Bottom"
-                        HorizontalAlignment="Left"/>
+                            Content="{StaticResource FontAwesomInfoIcon}"
+                            Foreground="White"
+                            Margin="10"
+                            Command="{Binding ShpwAppInfoCommand}"
+                            FontFamily="{StaticResource FontAwesome}"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Left" />
                 </DockPanel>
                 <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
-                    Content="{StaticResource FontAwesomeMenuIcon}"
-                    Foreground="White"
-                    Margin="10"
-                    FontFamily="{StaticResource FontAwesome}"
-                    Command="{Binding ExpandMenuCommand}"
-                    CommandParameter="{Binding ElementName=Menu}"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Center" />
+                        Content="{StaticResource FontAwesomeMenuIcon}"
+                        Foreground="White"
+                        Margin="10"
+                        FontFamily="{StaticResource FontAwesome}"
+                        Command="{Binding ExpandMenuCommand}"
+                        CommandParameter="{Binding ElementName=Menu}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center" />
 
 
             </DockPanel>
             <Border.Effect>
-                <DropShadowEffect Opacity="0.2"/>
+                <DropShadowEffect Opacity="0.2" />
             </Border.Effect>
         </Border>
         <Grid DockPanel.Dock="Right">
 
 
-            <ContentPresenter Content="{Binding MainContent}"/>
-
-
+            <ContentPresenter Content="{Binding MainContent}" />
 
 
         </Grid>

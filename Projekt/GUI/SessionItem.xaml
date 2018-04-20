@@ -83,8 +83,7 @@
             <Label Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    Content="Zapytania sesji:"
-                   HorizontalAlignment="Left"
-                   />
+                   HorizontalAlignment="Left" />
             <TextBlock
                 TextWrapping="Wrap"
                 Foreground="White"

@@ -7,8 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using Microsoft.Win32;
+using Projekt.Animations;
+using Projekt.Classes;
+using Projekt.Commands;
 using Projekt.GUI.UserControls;
-
+using Projekt.GUI.Windows;
 
 namespace Projekt.ViewModels
 {
@@ -23,19 +26,69 @@ namespace Projekt.ViewModels
             DTMCList = new List<SessionsGroup>();
             TestGroupsList = new List<SessionsGroup>();
 
-            EndResultsViewModel viewmodel = new EndResultsViewModel
+            var viewmodel = new EndResultsViewModel
             {
-                FailurePercent = 50,
-                SucessPercent = 50,
                 Title = "Tu pojawią się obliczone wyniki",
-                SessionsCount = 25000,
-                KPercent = 75
+                ContentPresented = new PlaceHolderControl()
             };
             MainContent = new EndResultsControl(viewmodel);
         }
 
-        #region Public Command
+        #region Private Methods
 
+        private void SavePredictedResults(List<SessionsGroup> groupList)
+        {
+            var lista = new List<string>();
+            float correctHits = 0;
+            float incorrectHits = 0;
+            var index = 1;
+            var k = "0%";
+            var d = "0";
+            float CorrectHitsProcent = 0;
+            float IncorrectHitsProcent = 0;
+            var saveFileDialog = new SaveFileDialog {Filter = "Text file (*.txt)|*.txt|C# file (*.cs)|*.cs"};
+
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                foreach (var group in groupList)
+                {
+                    foreach (var session in group.SessionsList)
+                    {
+                        if (session.PredictedType == session.RealType)
+                            correctHits++;
+                        else
+                            incorrectHits++;
+
+                        CorrectHitsProcent = correctHits / group.SessionsList.Count * 100;
+                        IncorrectHitsProcent = incorrectHits / group.SessionsList.Count * 100;
+                        k = session.Kpercent + "%";
+                    }
+
+                    string text;
+                    lista.Add(text = "Dla " + index + " wczytanej grupy");
+                    text = "";
+                    lista.Add(text = "Procent przepracowanych sesji: " + k);
+                    text = "";
+                    lista.Add(text = "Znaleziono: " + group.SessionsList.Count + " sesji");
+                    text = "";
+                    text = "Liczba poprawnych trafień: " + correctHits + " co stanowi: " + CorrectHitsProcent + "%";
+                    lista.Add(text);
+                    text = "Liczba niepoprawnych trafień: " + incorrectHits + " co stanowi: " + IncorrectHitsProcent +
+                           "%";
+
+                    lista.Add(text);
+
+                    index++;
+                }
+
+                File.WriteAllLines(saveFileDialog.FileName, lista);
+            }
+        }
+
+        #endregion
+
+        #region Public Command
 
         /// <summary>
         ///     Komenda wysuwająca menu bocznego
@@ -43,7 +96,7 @@ namespace Projekt.ViewModels
         public ICommand ExpandMenuCommand { get; set; }
 
         /// <summary>
-        /// Komenda wczytująca dane z pliku
+        ///     Komenda wczytująca dane z pliku
         /// </summary>
         public ICommand GetDataFromFileCommand { get; set; }
 
@@ -62,19 +115,20 @@ namespace Projekt.ViewModels
         public bool IsMenuExpand { get; set; }
 
         /// <summary>
-        /// Lista zawierająca wytrenowane grupy
+        ///     Lista zawierająca wytrenowane grupy
         /// </summary>
         public List<SessionsGroup> DTMCList { get; set; }
 
         /// <summary>
-        /// Lista zawierająca wytrenowane grupy
+        ///     Lista zawierająca wytrenowane grupy
         /// </summary>
         public List<SessionsGroup> TestGroupsList { get; set; }
-        
+
         /// <summary>
-        /// Content wyświetlany na ekranie głównym
+        ///     Content wyświetlany na ekranie głównym
         /// </summary>
         public UserControl MainContent { get; set; }
+
         #endregion
 
         #region Command Methods
@@ -94,11 +148,11 @@ namespace Projekt.ViewModels
 
         private void GetDataFromFile(object obj)
         {
-            DialogWindow Kwindow = new DialogWindow();
+            var Kwindow = new DialogWindow();
             //DTMCList = new List<SessionsGroup>();
 
             //Just some bool bro
-            bool isTestFile = false;
+            var isTestFile = false;
 
             //Dialog wczytujący plik
             var openFileDialog = new OpenFileDialog
@@ -119,7 +173,7 @@ namespace Projekt.ViewModels
                 if (openFileDialog.ShowDialog() == true)
                     foreach (var file in openFileDialog.FileNames)
                     {
-                        SessionsGroup currentGroup = new SessionsGroup();
+                        var currentGroup = new SessionsGroup();
                         var linesInFile = File.ReadAllLines(file);
 
                         //Jeśli pusty to krzycz
@@ -132,27 +186,27 @@ namespace Projekt.ViewModels
                         {
                             //Linijka po linijce AKA sesja po sesji
                             foreach (var line in linesInFile)
-                            {
                                 if (!string.IsNullOrEmpty(line))
                                 {
-                                    Session currentSession = new Session();
-                                    
+                                    var currentSession = new Session();
+
                                     var arrayOfRequests = line.Split();
                                     arrayOfRequests = arrayOfRequests.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
                                     if (isTestFile)
                                     {
                                         currentSession.Kpercent =
-                                            Double.Parse(Kwindow.viewmodel.InsertValue);
+                                            double.Parse(Kwindow.viewmodel.InsertValue);
 
-                                        currentSession.K = (int)((currentSession.Kpercent / 100) * arrayOfRequests.Length-1);
+                                        currentSession.K =
+                                            (int) (currentSession.Kpercent / 100 * arrayOfRequests.Length - 1);
                                         currentSession.NumberOfRequests = arrayOfRequests.Length - 1;
                                     }
 
                                     //Dla każdego żądania w sesji
                                     foreach (var req in arrayOfRequests)
                                     {
-                                        Request currentRequest = new Request();
+                                        var currentRequest = new Request();
                                         currentSession.FillSession(req);
 
                                         var req2 = req.First().ToString().ToUpper() + req.Substring(1);
@@ -163,17 +217,15 @@ namespace Projekt.ViewModels
                                         currentGroup.AddUniqueRequest(currentRequest);
 
                                         if (isTestFile && !currentSession.wasClassified)
-                                        {
                                             PerformOnlineDetection(currentSession);
-                                        }
                                     }
 
                                     currentGroup.SessionsList.Add(currentSession);
-
                                 }
-                            }
+
                             //Sortuje listę występujących żądań
-                            currentGroup.GroupUniqueRequest.Sort((x, y) => String.Compare(x.NameType, y.NameType, StringComparison.Ordinal));
+                            currentGroup.GroupUniqueRequest.Sort((x, y) =>
+                                string.Compare(x.NameType, y.NameType, StringComparison.Ordinal));
 
                             // Jeśli wczytano plik do zbadania to dodaj go do innej grupy
                             if (!isTestFile)
@@ -203,9 +255,7 @@ namespace Projekt.ViewModels
 
         private void PerformOnlineDetection(Session currentSession)
         {
-
             if (DTMCList != null && DTMCList.Count >= 2)
-            {
                 try
                 {
                     currentSession.PerformOnlineDetection(DTMCList);
@@ -224,22 +274,19 @@ namespace Projekt.ViewModels
                         "Wczytywanie z pliku", MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
-            }
             else
-            {
                 MessageBox.Show(
                     "Nie można poddać sesji ocenie gdyż nie wczytano wcześniej pików testowych",
                     "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
         }
 
         private DialogWindow CreateParameterDialog()
         {
-            DialogWindow window = new DialogWindow();
-            DialogWindowViewModel _viewModel = new DialogWindowViewModel
+            var window = new DialogWindow();
+            var _viewModel = new DialogWindowViewModel
             {
-                Message = "Podaj procentową wartość jako ilość żądań z sesji jakie program ma przepracowaćaby ocenić czy sesja jest sesją R czy H",
+                Message =
+                    "Podaj procentową wartość jako ilość żądań z sesji jakie program ma przepracowaćaby ocenić czy sesja jest sesją R czy H",
                 InsertValue = "75",
                 ButtonContent = "Zatwierdź"
             };
@@ -247,65 +294,6 @@ namespace Projekt.ViewModels
             window.DataContext = _viewModel;
 
             return window;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void SavePredictedResults(List<SessionsGroup> groupList)
-        {
-            var lista = new List<string>();
-            float correctHits = 0;
-            float incorrectHits = 0;
-            var text = "";
-            int index = 1;
-            string k = "0%";
-            string d = "0";
-            float CorrectHitsProcent = 0;
-            float IncorrectHitsProcent = 0;
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text file (*.txt)|*.txt|C# file (*.cs)|*.cs";
-
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-
-                foreach (var group in groupList)
-                {
-                    foreach (var session in group.SessionsList)
-                    {
-
-                        if (session.PredictedType == session.RealType)
-                            correctHits++;
-                        else
-                            incorrectHits++;
-
-                        CorrectHitsProcent = correctHits / @group.SessionsList.Count * 100;
-                        IncorrectHitsProcent = incorrectHits / @group.SessionsList.Count * 100;
-                        k = session.Kpercent + "%";
-                    }
-
-                    lista.Add(text = "Dla " + index + " wczytanej grupy");
-                    text = "";
-                    lista.Add(text = "Procent przepracowanych sesji: " + k);
-                    text = "";
-                    lista.Add(text = "Znaleziono: " + group.SessionsList.Count + " sesji");
-                    text = "";
-                    text = "Liczba poprawnych trafień: " + correctHits + " co stanowi: " + CorrectHitsProcent + "%";
-                    lista.Add(text);
-                    text = "Liczba niepoprawnych trafień: " + incorrectHits + " co stanowi: " + IncorrectHitsProcent +
-                           "%";
-
-                    lista.Add(text);
-
-                    index++;
-                }
-
-                File.WriteAllLines(saveFileDialog.FileName, lista);
-
-            }
-
         }
 
         #endregion

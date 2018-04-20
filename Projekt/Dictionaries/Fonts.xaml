@@ -3,7 +3,6 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--Definitions of font family-->
     <FontFamily x:Key="FontAwesome">pack://appliction;,,,/Fonts/#FontAwesome</FontFamily>
-    <FontFamily x:Key="GoogleMaterial">pack://appliction;,,,/Fonts/#FontMaterial</FontFamily>
 
     <!--FontAwsome-->
     <system:String x:Key="FontAwesomeChatIcon">&#xf086;</system:String>
@@ -11,7 +10,6 @@
     <system:String x:Key="FontAwesomePictureIcon">&#xf1c5;</system:String>
     <system:String x:Key="FontAwesomeCogIcon">&#xf013;</system:String>
     <system:String x:Key="FontAwesomeSearchIcon">&#xf002;</system:String>
-    <system:String x:Key="FontAwesomeEllipsisIcon">&#xf141;</system:String>
     <system:String x:Key="FontAwesomeEllipsisVerticalIcon">&#xf142;</system:String>
     <system:String x:Key="FontAwesomePaperclipIcon">&#xf0c6;</system:String>
     <system:String x:Key="FontAwesomeEmojiIcon">&#xf118;</system:String>
@@ -20,5 +18,6 @@
     <system:String x:Key="FontAwesomeCloseIcon">&#xf00d;</system:String>
     <system:String x:Key="FontAwesomeMenuIcon">&#xf0c9;</system:String>
     <system:String x:Key="FontAwesomInfoIcon">&#xf05a;</system:String>
+    <system:String x:Key="FontAwsomeMenuDots">&#xf141;</system:String>
 
 </ResourceDictionary>

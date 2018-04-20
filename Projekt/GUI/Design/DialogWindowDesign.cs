@@ -1,9 +1,9 @@
-﻿namespace Projekt
+﻿using Projekt.ViewModels;
+
+namespace Projekt.GUI.Design
 {
     public class DialogWindowDesign : DialogWindowViewModel
     {
-        public static DialogWindowDesign Instance => new DialogWindowDesign();
-
         public DialogWindowDesign()
         {
             InsertValue = "Wartość liczbowa lub tekstowa";
@@ -11,5 +11,6 @@
             ButtonContent = "Zatwierdź";
         }
 
+        public static DialogWindowDesign Instance => new DialogWindowDesign();
     }
 }

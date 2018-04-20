@@ -1,34 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Projekt.Classes;
-using System.Windows;
 
-namespace Projekt
+namespace Projekt.Classes
 {
     /// <summary>
     ///     Klasa która reprezentuje jadną sesję
     /// </summary>
     public class Session
     {
-
         public Session()
         {
             Requests = new List<string>();
             RealType = "NN";
             PredictedType = "NN";
-
         }
 
         #region Properties
 
         /// <summary>
-        ///     Lista żądań 
+        ///     Lista żądań
         /// </summary>
         public List<string> Requests { get; set; }
 
         /// <summary>
-        /// Ile żądań ma sesja
+        ///     Ile żądań ma sesja
         /// </summary>
         public int NumberOfRequests { get; set; }
 
@@ -43,17 +39,17 @@ namespace Projekt
         public string PredictedType { get; set; }
 
         /// <summary>
-        /// Procent żądań jakie mają zostać przepracowane aby dokonać oceny
+        ///     Procent żądań jakie mają zostać przepracowane aby dokonać oceny
         /// </summary>
         public double Kpercent { get; set; }
 
         /// <summary>
-        /// Liczba żądań jakie mają zostać przepracowane aby dokonać oceny
+        ///     Liczba żądań jakie mają zostać przepracowane aby dokonać oceny
         /// </summary>
         public int K { get; set; }
 
         /// <summary>
-        /// Różnica między LogR i LogH wartości powinny być z przedziału 0,5 a 2
+        ///     Różnica między LogR i LogH wartości powinny być z przedziału 0,5 a 2
         /// </summary>
         public static double Delta { get; set; } = 1;
 
@@ -62,16 +58,16 @@ namespace Projekt
         private double Rresult { get; set; }
 
         /// <summary>
-        /// Mówi nam czy sesja została zaklasyfikowana
+        ///     Mówi nam czy sesja została zaklasyfikowana
         /// </summary>
-        public bool wasClassified { get; set; } = false;
+        public bool wasClassified { get; set; }
 
         #endregion
 
         #region Public methods
 
         /// <summary>
-        ///  Przeprowadza ocenę sesji po każdym nowym żądaniu
+        ///     Przeprowadza ocenę sesji po każdym nowym żądaniu
         /// </summary>
         /// <param name="listOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
         public void PerformOnlineDetection(List<SessionsGroup> listOfDtmc)
@@ -88,17 +84,11 @@ namespace Projekt
 
                 if (dtmc.SessionsList[0].RealType == "R")
                 {
-                    if (result > Rresult || Rresult == 0)
-                    {
-                        Rresult = result;
-                    }
+                    if (result > Rresult || Rresult == 0) Rresult = result;
                 }
                 else
                 {
-                    if (result > Hresult || Hresult == 0)
-                    {
-                        Hresult = result;
-                    }
+                    if (result > Hresult || Hresult == 0) Hresult = result;
                 }
             }
 
@@ -109,7 +99,6 @@ namespace Projekt
 
                 if (Math.Abs(d) < Delta)
                 {
-
                 }
                 else if (d >= 0)
                 {
@@ -118,20 +107,12 @@ namespace Projekt
                 else if (d < 0)
                 {
                     PredictedType = "H";
-
                 }
             }
 
-            if (Requests.Count == NumberOfRequests && !wasClassified)
-            {
-                PerformOfflineDetection(listOfDtmc);
-            }
+            if (Requests.Count == NumberOfRequests && !wasClassified) PerformOfflineDetection(listOfDtmc);
 
-            if (PredictedType == "H" || PredictedType == "R")
-            {
-                wasClassified = true;
-            }
-
+            if (PredictedType == "H" || PredictedType == "R") wasClassified = true;
         }
 
         private double GetStartChanceValue(SessionsGroup dtmc)
@@ -139,16 +120,12 @@ namespace Projekt
             double result = 0;
             try
             {
-                Request firstElement = dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
+                var firstElement = dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
 
                 if (firstElement == null)
-                {
                     result = 0.00001;
-                }
                 else
-                {
                     result = firstElement.StarChances == 0 ? 0.00001 : Math.Log10(firstElement.StarChances);
-                }
             }
             catch (ArgumentNullException ex)
             {
@@ -159,7 +136,7 @@ namespace Projekt
         }
 
         /// <summary>
-        /// Dodaje nowe żądanie do sesji
+        ///     Dodaje nowe żądanie do sesji
         /// </summary>
         /// <param name="request">Nazwa żądania</param>
         public void FillSession(string request)
@@ -169,22 +146,18 @@ namespace Projekt
                 request = request.First().ToString().ToUpper() + request.Substring(1);
 
                 if (request == "H" || request == "R")
-                {
-                    // Jeśli jest to pierwsze słowo wczytanej linijki to traktuj je jako RealType R lub H
                     RealType = request;
-                }
                 else
-                {
                     Requests.Add(request);
-                }
             }
         }
+
         #endregion
 
         #region Private Methods
 
         /// <summary>
-        /// Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
+        ///     Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
         /// </summary>
         /// <param name="ListOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
         private void PerformOfflineDetection(List<SessionsGroup> ListOfDtmc)
@@ -197,23 +170,17 @@ namespace Projekt
                 double result = 0;
                 result += GetStartChanceValue(Dtmc);
 
-                for (int i = 0; i < Requests.Count; i++)
+                foreach (var req in Requests)
                 {
-                    result += GetLogPr(Dtmc, Requests[i]);
+                    result += GetLogPr(Dtmc, req);
 
                     if (Dtmc.SessionsList[0].RealType == "R")
                     {
-                        if (result > Rresult || Rresult == 0)
-                        {
-                            Rresult = result;
-                        }
+                        if (result > Rresult || Rresult == 0) Rresult = result;
                     }
                     else
                     {
-                        if (result > Hresult || Hresult == 0)
-                        {
-                            Hresult = result;
-                        }
+                        if (result > Hresult || Hresult == 0) Hresult = result;
                     }
                 }
             }
@@ -226,13 +193,13 @@ namespace Projekt
         {
             double result = 0;
 
-            var firstIndex = Dtmc.GroupUniqueRequest.IndexOf(Dtmc.GroupUniqueRequest.Find(x => x.NameType == requestName));
+            var firstIndex =
+                Dtmc.GroupUniqueRequest.IndexOf(Dtmc.GroupUniqueRequest.Find(x => x.NameType == requestName));
             var nextIndex = Requests.IndexOf(requestName);
 
             if (!(nextIndex >= Requests.Count - 1))
             {
-                var nextElement = new Request();
-                nextElement.NameType = Requests[nextIndex + 1];
+                var nextElement = new Request {NameType = Requests[nextIndex + 1]};
                 var secondIndeks =
                     Dtmc.GroupUniqueRequest.IndexOf(
                         Dtmc.GroupUniqueRequest.Find(x => x.NameType == nextElement.NameType));

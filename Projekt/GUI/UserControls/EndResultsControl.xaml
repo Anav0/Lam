@@ -1,61 +1,49 @@
-﻿<UserControl x:Class="Projekt.EndResultsControl"
+﻿<UserControl x:Class="Projekt.GUI.UserControls.EndResultsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:Projekt"
-             mc:Ignorable="d" 
+             xmlns:design1="clr-namespace:Projekt.GUI.Design"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="WhiteSmoke" d:DataContext="{x:Static design:EndResultsDesign.Instance}">
+    <Grid Background="WhiteSmoke" d:DataContext="{x:Static design1:EndResultsDesign.Instance}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="8*" />
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
 
         <Border Grid.Row="0">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="25" Opacity="0.2"/>
+                <DropShadowEffect BlurRadius="25" Opacity="0.2" />
             </Border.Effect>
-            <Label Content="{Binding Title}" 
-                   Background="CadetBlue" Foreground="WhiteSmoke"
-                   FontWeight="DemiBold" FontSize="16"
-                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Content="{Binding Title}"
+                       Background="CadetBlue" Foreground="WhiteSmoke"
+                       FontWeight="DemiBold" FontSize="16"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2" />
+                <Button
+                    Grid.Column="1"
+                    FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
+                    Content="{StaticResource FontAwesomeEllipsisVerticalIcon}"
+                    Foreground="White"
+                    FontFamily="{StaticResource FontAwesome}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" />
+            </Grid>
         </Border>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="W grupie znajdowało się" 
-                       Style="{StaticResource DefaultLabelStyle}" 
-                       Foreground="{StaticResource Teal400ColorBrush}"
-                       FontSize="14" Grid.Column="0"
-                       HorizontalContentAlignment="Right"
-                       Width="200"/>
+        <ContentPresenter Grid.Row="1" Content="{Binding ContentPresented}" />
 
-                <Label Content="{Binding SessionsCount}" 
-                       Style="{StaticResource DefaultLabelStyle}" 
-                       Foreground="{StaticResource Teal400ColorBrush}"
-                       FontSize="14" Grid.Column="1"
-                       Width="75"
-                       HorizontalContentAlignment="Center"/>
-
-                <Label Content="sesji" 
-                       Style="{StaticResource DefaultLabelStyle}" 
-                       Foreground="{StaticResource Teal400ColorBrush}"
-                       FontSize="14" Grid.Column="2"
-                       HorizontalContentAlignment="Center"/>
-            </Grid>
-           
-        </StackPanel>
 
     </Grid>
 </UserControl>

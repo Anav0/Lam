@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using Projekt.Commands;
 
-
-namespace Projekt
+namespace Projekt.ViewModels
 {
     public class DialogWindowViewModel : BasicViewModel
     {
@@ -12,7 +11,7 @@ namespace Projekt
             ButtonActionCommand = new RelayCommand(CloseAction);
         }
 
-        public ICommand ButtonActionCommand { get; private set; }
+        public ICommand ButtonActionCommand { get; }
 
         public string Message { get; set; }
 
@@ -20,11 +19,10 @@ namespace Projekt
 
         public string ButtonContent { get; set; }
 
-        public void CloseAction(Object obj)
+        public void CloseAction(object obj)
         {
-            Window window = obj as Window;
+            var window = obj as Window;
             window?.Close();
         }
-
     }
 }

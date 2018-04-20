@@ -1,14 +1,9 @@
-﻿
+﻿using System.Collections.Generic;
 
-using System.Collections.Generic;
-using Projekt.ViewModels;
-
-namespace Projekt
+namespace Projekt.ViewModels
 {
     public class SessionItemListViewModel : BasicViewModel
     {
-        public List<SessionItemViewModel> ItemList { get; set; }
-
         public SessionItemListViewModel(List<SessionItemViewModel> _ItemList)
         {
             ItemList = _ItemList;
@@ -17,5 +12,7 @@ namespace Projekt
         public SessionItemListViewModel()
         {
         }
+
+        public List<SessionItemViewModel> ItemList { get; set; }
     }
 }

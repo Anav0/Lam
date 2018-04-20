@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using PropertyChanged;
 
-namespace Projekt
+namespace Projekt.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
     public class BasicViewModel : INotifyPropertyChanged

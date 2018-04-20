@@ -40,9 +40,6 @@
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Apis, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.32.2\lib\net45\Google.Apis.dll</HintPath>
     </Reference>
@@ -58,8 +55,8 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged, Version=2.5.3.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.2.5.3\lib\net452\PropertyChanged.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=2.5.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.5.4\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -98,12 +95,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Pair.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\SessionsGroup.cs" />
     <Compile Include="GUI\Design\DataGridDesign.cs" />
     <Compile Include="GUI\Design\DialogWindowDesign.cs" />
+    <Compile Include="GUI\Design\ClassResultsDesign.cs" />
     <Compile Include="GUI\Design\EndResultsDesign.cs" />
     <Compile Include="GUI\Design\SessionItemDesign.cs" />
     <Compile Include="GUI\Design\SessionItemListDesign.cs" />
@@ -111,6 +108,9 @@
       <DependentUpon>DataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Animations\MenuAnimation.cs" />
+    <Compile Include="GUI\UserControls\ClassResultsControl.xaml.cs">
+      <DependentUpon>ClassResultsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\UserControls\EndResultsControl.xaml.cs">
       <DependentUpon>EndResultsControl.xaml</DependentUpon>
     </Compile>
@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="ViewModels\BasicViewModel.cs" />
     <Compile Include="ViewModels\DialogWindowViewModel.cs" />
+    <Compile Include="ViewModels\ClassResultsViewModel.cs" />
     <Compile Include="ViewModels\EndResultsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\DataGridViewModel.cs" />
@@ -163,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\SessionItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\UserControls\ClassResultsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -216,7 +221,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Resource Include="Fonts\FontAwsome.ttf" />
-    <Resource Include="Fonts\FontMaterial.ttf" />
     <None Include="WholeAppClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

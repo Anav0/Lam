@@ -4,11 +4,11 @@ using Projekt.ViewModels;
 namespace Projekt.GUI.UserControls
 {
     /// <summary>
-    ///     Interaction logic for EndResultsControl.xaml
+    ///     Interaction logic for ClassResultsControl.xaml
     /// </summary>
-    public partial class EndResultsControl : UserControl
+    public partial class ClassResultsControl : UserControl
     {
-        public EndResultsControl(EndResultsViewModel viewmodel)
+        public ClassResultsControl(ClassResultsViewModel viewmodel)
         {
             InitializeComponent();
             DataContext = viewmodel;

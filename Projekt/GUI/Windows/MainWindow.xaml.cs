@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Projekt.ViewModels;
 
-namespace Projekt
+namespace Projekt.GUI.Windows
 {
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
@@ -13,6 +13,5 @@ namespace Projekt
             InitializeComponent();
             DataContext = new MainWindowViewModel();
         }
-
     }
 }

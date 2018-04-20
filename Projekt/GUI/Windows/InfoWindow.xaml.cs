@@ -1,4 +1,4 @@
-﻿namespace Projekt
+﻿namespace Projekt.GUI.Windows
 {
     /// <summary>
     ///     Interaction logic for InfoWindow.xaml
