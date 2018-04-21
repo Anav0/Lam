@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Projekt.Classes;
 
-namespace Projekt.Classes
+namespace Projekt
 {
     /// <summary>
     ///     Reprezentuję zbiór wczytanych sesji
@@ -13,6 +14,7 @@ namespace Projekt.Classes
             GroupUniqueRequest = new List<Request>();
         }
 
+        #region Public properties
         /// <summary>
         ///     Lista sesji znajdujących się we wczytanej grupie
         /// </summary>
@@ -23,19 +25,36 @@ namespace Projekt.Classes
         /// </summary>
         public List<Request> GroupUniqueRequest { get; set; }
 
+        public int RobotCount { get; set; }
+
+        public int CorrectlyAsRobot { get; set; }
+
+        public int CorrectlyAsHuman { get; set; }
+
+        public int WronglyAsHuman { get; set; }
+
+        public int WronglyAsRobot { get; set; }
+
+        public int HumanCount { get; set; }
+
+        public int SumOfflineDetections { get; set; }
+
+        public int SumOnlineDetections { get; set; }
+
+
         /// <summary>
         ///     Tablica zawierająca w sobie prawdopodobieństwo wystąpienia jednego żądania po drugim
         /// </summary>
         public float[,] Probability { get; set; }
 
+        #endregion
+
         #region Public Methods
 
-        public void CalculateDTMC()
-        {
-            CalculateProbability();
-            CreateMatrix();
-        }
-
+        /// <summary>
+        /// Dodaje do <see cref="SessionsList"/> takie <see cref="Request"/> które nie wystąpiło wcześniej
+        /// </summary>
+        /// <param name="currentRequest">Sprawdzane żądanie</param>
         public void AddUniqueRequest(Request currentRequest)
         {
             // Jeśli żądanie nie wystąpiło wcześniej to:
@@ -53,6 +72,48 @@ namespace Projekt.Classes
             }
         }
 
+        /// <summary>
+        /// Notuję klasyfikację
+        /// </summary>
+        /// <param name="session">Sprawdzana sesja</param>
+        public void CalculateQuantities(Session session)
+        {
+            if (session.RealType == "H" && session.PredictedType == session.RealType)
+            {
+                CorrectlyAsHuman++;
+            }
+            else if (session.RealType == "R" && session.PredictedType == session.RealType)
+            {
+                CorrectlyAsRobot++;
+            }
+            else if (session.RealType == "H" &&
+                     session.PredictedType != session.RealType)
+            {
+                WronglyAsRobot++;
+            }
+            else if (session.RealType == "R" &&
+                     session.PredictedType != session.RealType)
+            {
+                WronglyAsHuman++;
+
+            }
+
+            if (session.DetectionMethodused == DetectionType.Offline)
+            {
+                SumOfflineDetections++;
+            }
+            else if (session.DetectionMethodused == DetectionType.Online)
+            {
+                SumOnlineDetections++;
+            }
+        }
+
+        public void CalculateDTMC()
+        {
+            CalculateProbability();
+            CreateMatrix();
+        }
+
         #endregion
 
         #region Private Methods
@@ -67,7 +128,7 @@ namespace Projekt.Classes
                 // znajdue sesję które zaczynają się przez request
                 request.SessionStarts = SessionsList.FindAll(x => x.Requests[0] == request.NameType).Count;
 
-                request.StarChances = (double) request.SessionStarts / SessionsList.Count;
+                request.StarChances = (double)request.SessionStarts / SessionsList.Count;
             }
         }
 
@@ -93,8 +154,8 @@ namespace Projekt.Classes
                 }
 
             for (var i = 0; i < GroupUniqueRequest.Count; i++)
-            for (var j = 0; j < GroupUniqueRequest.Count; j++)
-                Probability[i, j] /= GroupUniqueRequest[i].Quantity;
+                for (var j = 0; j < GroupUniqueRequest.Count; j++)
+                    Probability[i, j] /= GroupUniqueRequest[i].Quantity;
         }
     }
 }

@@ -12,7 +12,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
 
         </Grid.ColumnDefinitions>
 
@@ -24,27 +23,37 @@
                        HorizontalContentAlignment="Center"
                        Foreground="White" />
             </Border>
-            <Label Content="{Binding SessionsCount}"
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                <Label Content="{Binding SessionsCount}"
                    ContentStringFormat="W grupie było {0} sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
-            <Label Content="{Binding MethodUsed}"
-                   ContentStringFormat="Metoda detekcji: {0}"
-                   Style="{StaticResource DefaultLabelStyle}"
-                   Foreground="White"
-                   FontSize="14"
-                   Margin="5"
-                   HorizontalAlignment="Center" />
-            <Label Content="{Binding KPercent}"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding KPercent}"
                    ContentStringFormat="Przepracowano {0}% sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding OfflineMethodUsed}"
+                   ContentStringFormat="Metodą offline oceniono: {0} sesji"
+                   Style="{StaticResource DefaultLabelStyle}"
+                   Foreground="White"
+                   FontSize="14"
+                   Margin="5"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding OnlineMethodUsed}"
+                   ContentStringFormat="Metodą online oceniono: {0} sesji"
+                   Style="{StaticResource DefaultLabelStyle}"
+                   Foreground="White"
+                   FontSize="14"
+                   Margin="5"
+                   HorizontalAlignment="Right" />
+            </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" Background="IndianRed" Grid.Column="1">
             <Border BorderThickness="3" BorderBrush="DimGray">
@@ -54,43 +63,71 @@
                        HorizontalContentAlignment="Center"
                        Foreground="White" />
             </Border>
-            <Label Content="{Binding SucessPercent}"
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <Label Content="{Binding SucessPercent}"
                    ContentStringFormat="Pozytywnie zaklasyfikowano {0}% sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
-            <Label Content="{Binding FailurePercent}"
-                   ContentStringFormat="Fałszywie zaklasyfikowano {0}% sesji"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding FailurePercent}"
+                   ContentStringFormat="Błędnie zaklasyfikowano {0}% sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Background="LightSeaGreen" Grid.Column="2">
-            <Border BorderThickness="3" BorderBrush="DimGray">
-                <Label Content="Nieścisłości"
-                       Background="DarkOrange"
-                       FontSize="16" FontWeight="DemiBold"
-                       HorizontalContentAlignment="Center"
-                       Foreground="White" />
-            </Border>
-            <Label Content="{Binding PositiveNegative}"
-                   ContentStringFormat="Pozytywnie-fałszywe {0}% sesji"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding TruePositive}"
+                   ContentStringFormat="True-Positive {0} sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
-            <Label Content="{Binding NegativePositive}"
-                   ContentStringFormat="Fałszywie-pozytywnie {0}% sesji"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding TrueNegative}"
+                   ContentStringFormat="True-Negative {0} sesji"
                    Style="{StaticResource DefaultLabelStyle}"
                    Foreground="White"
                    FontSize="14"
                    Margin="5"
-                   HorizontalAlignment="Center" />
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding FalsePositive}"
+                       ContentStringFormat="False-Positive {0} sesji"
+                       Style="{StaticResource DefaultLabelStyle}"
+                       Foreground="White"
+                       FontSize="14"
+                       Margin="5"
+                       HorizontalAlignment="Right" />
+                <Label Content="{Binding FalseNegative}"
+                       ContentStringFormat="False-Negative {0} sesji"
+                       Style="{StaticResource DefaultLabelStyle}"
+                       Foreground="White"
+                       FontSize="14"
+                       Margin="5"
+                       HorizontalAlignment="Right" />
+                <Label Content="{Binding Recall}"
+                   ContentStringFormat="Recall wynosi {0}"
+                   Style="{StaticResource DefaultLabelStyle}"
+                   Foreground="White"
+                   FontSize="14"
+                   Margin="5"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding Precision}"
+                   ContentStringFormat="Precision wynosi {0}"
+                   Style="{StaticResource DefaultLabelStyle}"
+                   Foreground="White"
+                   FontSize="14"
+                   Margin="5"
+                   HorizontalAlignment="Right" />
+                <Label Content="{Binding Measure}"
+                   ContentStringFormat="Współczynik F1 wynosi {0}"
+                   Style="{StaticResource DefaultLabelStyle}"
+                   Foreground="White"
+                   FontSize="14"
+                   Margin="5"
+                   HorizontalAlignment="Right" />
+            </StackPanel>
         </StackPanel>
 
     </Grid>

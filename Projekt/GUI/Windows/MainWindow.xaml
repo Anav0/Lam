@@ -14,7 +14,6 @@
                        Margin="-230 0 0 0"
                        Width="300">
 
-
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
                         <Button Padding="10"
@@ -26,9 +25,15 @@
                         <Button Padding="10"
                                 Foreground="White"
                                 Style="{StaticResource StandardOpacityButtonStyle}"
-                                Content="Wczytaj i poddaj sesję ocenie"
+                                Content="Wczytaj i poddaj ocenie offline"
                                 Command="{Binding GetDataFromFileCommand}"
-                                CommandParameter="ANDRZEJ_DUDA_CZYNI_CUDA" />
+                                CommandParameter="Offline" />
+                        <Button Padding="10"
+                                Foreground="White"
+                                Style="{StaticResource StandardOpacityButtonStyle}"
+                                Content="Wczytaj i poddaj ocenie online"
+                                Command="{Binding GetDataFromFileCommand}"
+                                CommandParameter="Online" />
 
                     </StackPanel>
                     <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"

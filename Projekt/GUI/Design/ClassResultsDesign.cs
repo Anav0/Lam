@@ -10,9 +10,12 @@ namespace Projekt.GUI.Design
             SucessPercent = 50;
             SessionsCount = 21550;
             KPercent = 75;
-            MethodUsed = "Offline";
-            PositiveNegative = 0;
-            NegativePositive = 0;
+            TruePositive = 0;
+            TrueNegative = 0;
+            FalsePositive = 0;
+            FalseNegative = 0;
+            OfflineMethodUsed = 20000;
+            OnlineMethodUsed = 1550;
         }
 
         public static ClassResultsDesign Instance => new ClassResultsDesign();

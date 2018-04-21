@@ -16,7 +16,7 @@ namespace Projekt.Classes
             PredictedType = "NN";
         }
 
-        #region Properties
+        #region Public properties
 
         /// <summary>
         ///     Lista żądań
@@ -41,7 +41,7 @@ namespace Projekt.Classes
         /// <summary>
         ///     Procent żądań jakie mają zostać przepracowane aby dokonać oceny
         /// </summary>
-        public double Kpercent { get; set; }
+        public float Kpercent { get; set; }
 
         /// <summary>
         ///     Liczba żądań jakie mają zostać przepracowane aby dokonać oceny
@@ -51,16 +51,21 @@ namespace Projekt.Classes
         /// <summary>
         ///     Różnica między LogR i LogH wartości powinny być z przedziału 0,5 a 2
         /// </summary>
-        public static double Delta { get; set; } = 1;
+        public static float Delta { get; set; } = 1;
 
-        private double Hresult { get; set; }
+        private float Hresult { get; set; }
 
-        private double Rresult { get; set; }
+        private float Rresult { get; set; }
 
         /// <summary>
         ///     Mówi nam czy sesja została zaklasyfikowana
         /// </summary>
         public bool wasClassified { get; set; }
+
+        /// <summary>
+        /// Metoda użyta do klasyfikacji
+        /// </summary>
+        public DetectionType DetectionMethodused { get; set; }
 
         #endregion
 
@@ -74,7 +79,7 @@ namespace Projekt.Classes
         {
             if (Requests.Count <= 0) return;
 
-            double result = 0;
+            float result = 0;
 
             foreach (var dtmc in listOfDtmc)
             {
@@ -103,36 +108,54 @@ namespace Projekt.Classes
                 else if (d >= 0)
                 {
                     PredictedType = "R";
+                    DetectionMethodused = DetectionType.Online;
                 }
                 else if (d < 0)
                 {
                     PredictedType = "H";
+                    DetectionMethodused = DetectionType.Online;
                 }
             }
 
             if (Requests.Count == NumberOfRequests && !wasClassified) PerformOfflineDetection(listOfDtmc);
-
+            
             if (PredictedType == "H" || PredictedType == "R") wasClassified = true;
+
+            
         }
 
-        private double GetStartChanceValue(SessionsGroup dtmc)
+        /// <summary>
+        ///     Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
+        /// </summary>
+        /// <param name="ListOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
+        public void PerformOfflineDetection(List<SessionsGroup> ListOfDtmc)
         {
-            double result = 0;
-            try
-            {
-                var firstElement = dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
+            Rresult = 0;
+            Hresult = 0;
 
-                if (firstElement == null)
-                    result = 0.00001;
-                else
-                    result = firstElement.StarChances == 0 ? 0.00001 : Math.Log10(firstElement.StarChances);
-            }
-            catch (ArgumentNullException ex)
+            foreach (var Dtmc in ListOfDtmc)
             {
-                result = 0;
+                float result = 0;
+                result += GetStartChanceValue(Dtmc);
+
+                foreach (var req in Requests)
+                {
+                    result += GetLogPr(Dtmc, req);
+
+                    if (Dtmc.SessionsList[0].RealType == "R")
+                    {
+                        if (result > Rresult || Rresult == 0) Rresult = result;
+                    }
+                    else
+                    {
+                        if (result > Hresult || Hresult == 0) Hresult = result;
+                    }
+                }
             }
 
-            return result;
+            PredictedType = Rresult < Hresult ? "H" : "R";
+            wasClassified = true;
+            DetectionMethodused = DetectionType.Offline;
         }
 
         /// <summary>
@@ -155,43 +178,31 @@ namespace Projekt.Classes
         #endregion
 
         #region Private Methods
-
-        /// <summary>
-        ///     Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
-        /// </summary>
-        /// <param name="ListOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
-        private void PerformOfflineDetection(List<SessionsGroup> ListOfDtmc)
+        private float GetStartChanceValue(SessionsGroup dtmc)
         {
-            Rresult = 0;
-            Hresult = 0;
-
-            foreach (var Dtmc in ListOfDtmc)
+            float result = 0;
+            try
             {
-                double result = 0;
-                result += GetStartChanceValue(Dtmc);
+                var firstElement = dtmc.GroupUniqueRequest.Find(x => x.NameType == Requests[0]);
 
-                foreach (var req in Requests)
-                {
-                    result += GetLogPr(Dtmc, req);
-
-                    if (Dtmc.SessionsList[0].RealType == "R")
-                    {
-                        if (result > Rresult || Rresult == 0) Rresult = result;
-                    }
-                    else
-                    {
-                        if (result > Hresult || Hresult == 0) Hresult = result;
-                    }
-                }
+                if (firstElement == null)
+                    result = 0.00001f;
+                else
+                    result = firstElement.StarChances == 0 ? 0.00001f : (float)Math.Log10(firstElement.StarChances);
+            }
+            catch (ArgumentNullException ex)
+            {
+                result = 0;
             }
 
-            PredictedType = Rresult < Hresult ? "H" : "R";
-            wasClassified = true;
+            return result;
         }
 
-        private double GetLogPr(SessionsGroup Dtmc, string requestName)
+      
+
+        private float GetLogPr(SessionsGroup Dtmc, string requestName)
         {
-            double result = 0;
+            float result = 0;
 
             var firstIndex =
                 Dtmc.GroupUniqueRequest.IndexOf(Dtmc.GroupUniqueRequest.Find(x => x.NameType == requestName));
@@ -204,13 +215,13 @@ namespace Projekt.Classes
                     Dtmc.GroupUniqueRequest.IndexOf(
                         Dtmc.GroupUniqueRequest.Find(x => x.NameType == nextElement.NameType));
 
-                double subResult = 0;
+                float subResult = 0;
                 if (secondIndeks == -1 || firstIndex == -1)
                     subResult = 0;
                 else
                     subResult = Dtmc.Probability[firstIndex, secondIndeks];
-                if (subResult == 0 || double.IsNaN(subResult)) subResult = 0.00001;
-                result += Math.Log10(subResult);
+                if (subResult == 0) subResult = 0.00001f;
+                result += (float) Math.Log10(subResult);
             }
 
             return result;

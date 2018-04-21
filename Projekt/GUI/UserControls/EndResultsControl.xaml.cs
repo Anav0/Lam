@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Input;
 using Projekt.ViewModels;
 
 namespace Projekt.GUI.UserControls
@@ -8,10 +9,14 @@ namespace Projekt.GUI.UserControls
     /// </summary>
     public partial class EndResultsControl : UserControl
     {
-        public EndResultsControl(EndResultsViewModel viewmodel)
+        public EndResultsViewModel mViewModel {get; set; }
+
+        public EndResultsControl(EndResultsViewModel mViewModel)
         {
             InitializeComponent();
-            DataContext = viewmodel;
+            this.mViewModel = mViewModel;
+            DataContext = mViewModel;
         }
+
     }
 }

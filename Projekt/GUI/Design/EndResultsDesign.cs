@@ -1,7 +1,7 @@
 ﻿using Projekt.GUI.UserControls;
 using Projekt.ViewModels;
 
-namespace Projekt.GUI.Design
+namespace Projekt
 {
     public class EndResultsDesign : EndResultsViewModel
     {
@@ -14,9 +14,12 @@ namespace Projekt.GUI.Design
                 SucessPercent = 50,
                 SessionsCount = 21550,
                 KPercent = 75,
-                MethodUsed = "Offline",
-                PositiveNegative = 0,
-                NegativePositive = 0
+                TruePositive = 0,
+                TrueNegative = 0,
+                FalsePositive = 0,
+                FalseNegative = 0,
+                OnlineMethodUsed = 20000,
+                OfflineMethodUsed = 1550
             };
             ContentPresented = new ClassResultsControl(viewmodel);
         }

@@ -95,19 +95,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Classes\ModelEvaluation.cs" />
+    <Compile Include="Enums\DetectionType.cs" />
+    <Compile Include="Enums\ElementVerticalAligment.cs" />
+    <Compile Include="Enums\IconType.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Classes\SessionsGroup.cs" />
+    <Compile Include="Enums\ElementHorizontalAlignment.cs" />
+    <Compile Include="Enums\MenuItemType.cs" />
+    <Compile Include="ExtensionMethods\IconTypeExtensions.cs" />
     <Compile Include="GUI\Design\DataGridDesign.cs" />
     <Compile Include="GUI\Design\DialogWindowDesign.cs" />
     <Compile Include="GUI\Design\ClassResultsDesign.cs" />
     <Compile Include="GUI\Design\EndResultsDesign.cs" />
+    <Compile Include="GUI\Design\MenuDesignModel.cs" />
     <Compile Include="GUI\Design\SessionItemDesign.cs" />
     <Compile Include="GUI\Design\SessionItemListDesign.cs" />
     <Compile Include="GUI\DataGrid.xaml.cs">
       <DependentUpon>DataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Animations\MenuAnimation.cs" />
+    <Compile Include="GUI\UserControls\BasePopup.xaml.cs">
+      <DependentUpon>BasePopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\UserControls\ClassResultsControl.xaml.cs">
       <DependentUpon>ClassResultsControl.xaml</DependentUpon>
     </Compile>
@@ -117,12 +128,24 @@
     <Compile Include="GUI\UserControls\PlaceHolderControl.xaml.cs">
       <DependentUpon>PlaceHolderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UserControls\VerticalMenu.xaml.cs">
+      <DependentUpon>VerticalMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ValueConverters\BaseValueConverter.cs" />
+    <Compile Include="ValueConverters\VerticalAlignmentConverter.cs" />
+    <Compile Include="ValueConverters\HorizontalAlignmentConverter.cs" />
+    <Compile Include="ValueConverters\IconTypeToFontAwesomeConverter.cs" />
+    <Compile Include="ValueConverters\MenuItemTypeVisiblityConverter.cs" />
+    <Compile Include="ValueConverters\VisibilityBoolValueConverter.cs" />
+    <Compile Include="ViewModels\BasePopupViewModel.cs" />
     <Compile Include="ViewModels\BasicViewModel.cs" />
     <Compile Include="ViewModels\DialogWindowViewModel.cs" />
     <Compile Include="ViewModels\ClassResultsViewModel.cs" />
     <Compile Include="ViewModels\EndResultsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\DataGridViewModel.cs" />
+    <Compile Include="ViewModels\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\SessionItemListViewModel.cs" />
     <Compile Include="ViewModels\SessionItemViewModel.cs" />
     <Compile Include="GUI\Windows\DialogWindow.xaml.cs">
@@ -167,6 +190,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\UserControls\BasePopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\UserControls\ClassResultsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\UserControls\PlaceHolderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\UserControls\VerticalMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
