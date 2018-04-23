@@ -2,12 +2,12 @@
 
 namespace Projekt.GUI.Design
 {
-    public class ClassResultsDesign : ClassResultsViewModel
+    public class ResultsDesign : ResultsViewModel
     {
-        public ClassResultsDesign()
+        public ResultsDesign()
         {
             FailurePercent = 50;
-            SucessPercent = 50;
+            SuccessPercent = 50;
             SessionsCount = 21550;
             KPercent = 75;
             TruePositive = 0;
@@ -18,6 +18,6 @@ namespace Projekt.GUI.Design
             OnlineMethodUsed = 1550;
         }
 
-        public static ClassResultsDesign Instance => new ClassResultsDesign();
+        public static ResultsDesign Instance => new ResultsDesign();
     }
 }

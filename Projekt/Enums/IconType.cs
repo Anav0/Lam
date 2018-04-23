@@ -11,13 +11,18 @@
         None = 0,
 
         /// <summary>
-        /// A picture frame
+        /// A hdd icon
         /// </summary>
-        Save = 1,
+        Drive = 1,
 
         /// <summary>
         /// A file icon
         /// </summary>
         Cancel = 2,
+
+        /// <summary>
+        /// A floppy disk icon
+        /// </summary>
+        Save = 4,
     }
 }

@@ -3,15 +3,15 @@ using Projekt.ViewModels;
 
 namespace Projekt
 {
-    public class EndResultsDesign : EndResultsViewModel
+    public class PresentationScreenDesign : PresentationScreenViewModel
     {
-        public EndResultsDesign()
+        public PresentationScreenDesign()
         {
             Title = "Wynik dla grupy 1";
-            var viewmodel = new ClassResultsViewModel
+            var viewmodel = new ResultsViewModel
             {
                 FailurePercent = 50,
-                SucessPercent = 50,
+                SuccessPercent = 50,
                 SessionsCount = 21550,
                 KPercent = 75,
                 TruePositive = 0,
@@ -21,9 +21,9 @@ namespace Projekt
                 OnlineMethodUsed = 20000,
                 OfflineMethodUsed = 1550
             };
-            ContentPresented = new ClassResultsControl(viewmodel);
+            ContentPresented = new Results(viewmodel);
         }
 
-        public static EndResultsDesign Instance => new EndResultsDesign();
+        public static PresentationScreenDesign Instance => new PresentationScreenDesign();
     }
 }

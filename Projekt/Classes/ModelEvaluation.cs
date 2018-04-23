@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projekt.Classes;
-
-namespace Projekt
+﻿namespace Projekt
 {
     public class ModelEvaluation
     {
+
+        #region Public properties
 
         public float TruePositive { get; set; }
 
@@ -29,11 +24,13 @@ namespace Projekt
 
         public float Measure { get; set; }
 
-        public float CalculateRecall(SessionsGroup group)
+        #endregion
+
+        #region Public methods
+
+        public float CalculateRecall(TestedGroup group)
         {
-            float recall = 0;
-            
-            recall = (float)group.RobotCount / (group.CorrectlyAsRobot + group.WronglyAsHuman);
+            float recall = (float)group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsHuman);
             TruePositive = group.CorrectlyAsRobot;
             FalseNegative = group.WronglyAsHuman;
 
@@ -43,11 +40,11 @@ namespace Projekt
             return recall;
         }
 
-        public float CalculatePrecision(SessionsGroup group)
+        public float CalculatePrecision(TestedGroup group)
         {
-            float precision = 0;
+            float precision;
 
-            Precision = precision = (float)group.RobotCount / (group.CorrectlyAsRobot + group.WronglyAsRobot);
+            Precision = precision = (float)group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsRobot);
 
             FalsePositive = group.WronglyAsRobot;
             FalsePositiveRate = 1 - precision;
@@ -58,5 +55,7 @@ namespace Projekt
         {
             return Measure = Recall + Precision;
         }
+
+        #endregion
     }
 }

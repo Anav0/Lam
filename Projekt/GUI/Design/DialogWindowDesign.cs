@@ -6,7 +6,8 @@ namespace Projekt.GUI.Design
     {
         public DialogWindowDesign()
         {
-            InsertValue = "Wartość liczbowa lub tekstowa";
+            KValue = "Wartość k";
+            DeltaValue = "Wartość delty";
             Message = "Instrukcja co do wprowadzane j przez użytkownika wartości";
             ButtonContent = "Zatwierdź";
         }

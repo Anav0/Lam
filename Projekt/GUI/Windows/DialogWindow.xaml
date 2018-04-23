@@ -1,4 +1,4 @@
-﻿<Window x:Class="Projekt.GUI.Windows.DialogWindow"
+﻿<Window x:Class="Projekt.DialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,8 +7,9 @@
         xmlns:design1="clr-namespace:Projekt.GUI.Design"
         mc:Ignorable="d"
         d:DataContext="{x:Static design1:DialogWindowDesign.Instance}"
-        Title="Wprowadź parametry" Height="250" Width="400" ShowInTaskbar="False"
+        Title="Wprowadź parametry" Height="280" Width="350" ShowInTaskbar="False"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
         Name="Window"
         Background="White">
 
@@ -22,8 +23,13 @@
                    Foreground="SlateGray"
                    Text="{Binding Message}" />
 
-        <TextBox Style="{StaticResource BasicTextBox}" Text="{Binding InsertValue}" HorizontalAlignment="Center"
-                 VerticalAlignment="Center" />
+        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding KValue}" 
+                 HorizontalAlignment="Center"/>
+
+        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding DeltaValue}" 
+                 HorizontalAlignment="Center"  />
+
+
         <Button Content="{Binding ButtonContent}"
                 Style="{StaticResource StandardOpacityButtonStyle}"
                 Foreground="SlateGray"

@@ -5,13 +5,13 @@ using Projekt.ViewModels;
 namespace Projekt.GUI.UserControls
 {
     /// <summary>
-    ///     Interaction logic for EndResultsControl.xaml
+    ///     Interaction logic for PresentationScreenControl.xaml
     /// </summary>
-    public partial class EndResultsControl : UserControl
+    public partial class PresentationScreenControl : UserControl
     {
-        public EndResultsViewModel mViewModel {get; set; }
+        public PresentationScreenViewModel mViewModel {get; set; }
 
-        public EndResultsControl(EndResultsViewModel mViewModel)
+        public PresentationScreenControl(PresentationScreenViewModel mViewModel)
         {
             InitializeComponent();
             this.mViewModel = mViewModel;

@@ -15,7 +15,9 @@ namespace Projekt.ViewModels
 
         public string Message { get; set; }
 
-        public string InsertValue { get; set; }
+        public string KValue { get; set; }
+
+        public string DeltaValue { get; set; }
 
         public string ButtonContent { get; set; }
 

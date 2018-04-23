@@ -16,10 +16,13 @@
             switch (type)
             {
                 case IconType.Save:
-                    return "\uf0a0";
+                    return "\uf0c7";
 
                 case IconType.Cancel:
                     return "\uf05e";
+
+                case IconType.Drive:
+                    return "\uf0a0";
 
                 // If none found, return null
                 default:
