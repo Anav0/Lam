@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using Projekt.Animations;
 using Projekt.Commands;
 using Projekt.GUI.UserControls;
 using Projekt.ViewModels;
@@ -17,15 +17,65 @@ namespace Projekt
         {
             ShowMenuCommand = new RelayCommand(ShowMenu);
             ClickAwayCommand = new RelayCommand(ClickAway);
-            ActiveResults = new List<ResultsViewModel>();
+            ActiveResults = new ObservableCollection<ResultsViewModel>();
             CreatePopup();
         }
+
+        #region Private Methods
+
+        private void CreatePopup()
+        {
+            var poupViewModel = new BasePopupViewModel
+            {
+                ArrowAlignmentHorizontal = ElementHorizontalAlignment.Right,
+                TopArrowVisibility = true,
+                BottomArrowVisibility = false,
+                BubbleContent = new VerticalMenu
+                {
+                    DataContext = new MenuViewModel
+                    {
+                        Items =
+                        {
+                            new MenuItemViewModel {Text = "Wyniki", Icon = IconType.None, Type = MenuItemType.Header},
+                            new MenuItemViewModel {Icon = IconType.None, Type = MenuItemType.Divider},
+                            new MenuItemViewModel
+                            {
+                                Text = "Zapisz wynik do pliku",
+                                Icon = IconType.Save,
+                                Type = MenuItemType.TextAndIcon,
+                                ClickCommand = new RelayCommand(SaveResults)
+                            },
+                            new MenuItemViewModel
+                            {
+                                Text = "Zapamiętaj wynik",
+                                Icon = IconType.Drive,
+                                Type = MenuItemType.TextAndIcon,
+                                ClickCommand = new RelayCommand(StoreResult)
+                            },
+                            new MenuItemViewModel
+                            {
+                                Text = "Wyczyść wynik",
+                                Icon = IconType.Cancel,
+                                Type = MenuItemType.TextAndIcon,
+                                ClickCommand = new RelayCommand(ClearResults)
+                            }
+                        }
+                    }
+                }
+            };
+
+
+
+            MenuPopupDataContext = poupViewModel;
+        }
+
+        #endregion
 
         #region Public properties
 
         public string Title { get; set; }
 
-        public bool MenuVisibility { get; set; } 
+        public bool MenuVisibility { get; set; }
 
         public bool HasResultsShown { get; set; }
 
@@ -35,11 +85,9 @@ namespace Projekt
 
         public BasicViewModel PerentViewModel { get; set; }
 
-        public List<ResultsViewModel> ActiveResults { get; set; }
+        public ObservableCollection<ResultsViewModel> ActiveResults { get; set; }
 
-        public List<ResultsViewModel> StoredResults { get; set; }
-
-
+        public ObservableCollection<ResultsViewModel> StoredResults { get; set; }
 
         #endregion
 
@@ -66,21 +114,17 @@ namespace Projekt
 
         private void SaveResults(object obj)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "Text documents (.txt)|*.txt";
-            dialog.DefaultExt = ".txt";
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Text documents (.txt)|*.txt",
+                DefaultExt = ".txt"
+            };
 
             if (HasResultsShown)
             {
-
                 foreach (var result in ActiveResults)
-                {
-                    
                     if (dialog.ShowDialog() == true)
-                    {
                         File.WriteAllLines(dialog.FileName, result.PropertiesToList());
-                    }
-                }
                 MessageBox.Show("Pomyślnie zapisano wyniki", Title, MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
@@ -91,29 +135,37 @@ namespace Projekt
 
         private void StoreResult(object obj)
         {
-
             if (HasResultsShown)
             {
-                if (StoredResults == null)
-                {
-                    StoredResults = new List<ResultsViewModel>();
-                }
+                if (StoredResults == null) StoredResults = new ObservableCollection<ResultsViewModel>();
+                Serializer serializer = new Serializer();
+
+                var mv = (MainWindowViewModel)PerentViewModel;
 
                 foreach (var result in ActiveResults)
                 {
                     StoredResults.Add(result);
-                    string filename = Guid.NewGuid() + ".txt";
+
+                    var filename = Guid.NewGuid() + ".txt";
+                    var filePath = AppDomain.CurrentDomain.BaseDirectory + @"\SavedResults\" + filename;
 
                     Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + @"\SavedResults\");
 
-                    File.WriteAllLines(AppDomain.CurrentDomain.BaseDirectory+@"\SavedResults\ "+ filename, result.PropertiesToList());
-                }
+                    serializer.WriteToXmlFile(AppDomain.CurrentDomain.BaseDirectory + @"\SavedResults\ " + filename,
+                        result);
 
+                    if(mv.SavedResultsData == null) mv.SavedResultsData = new FilesListViewModel();
+
+                    mv.SavedResultsData.List.Add(new FileViewModel { FilePath = filePath, FileName = result.GivenName, Parent = mv.SavedResultsData, DisplayDataFrame = this});
+
+                }
             }
             else
             {
                 MessageBox.Show("Nie można zapamiętać wyniku", Title, MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
+
+            
         }
 
         private void ClickAway(object obj)
@@ -122,36 +174,5 @@ namespace Projekt
         }
 
         #endregion
-
-        #region Private Methods
-
-        private void CreatePopup()
-        {
-            BasePopupViewModel poupViewModel = new BasePopupViewModel();
-
-            poupViewModel.ArrowAlignmentHorizontal = ElementHorizontalAlignment.Right;
-            poupViewModel.TopArrowVisibility = true;
-            poupViewModel.BottomArrowVisibility = false;
-
-            poupViewModel.BubbleContent = new VerticalMenu
-            {
-                DataContext = new MenuViewModel
-                {
-                    Items =
-                    {
-                        new MenuItemViewModel{Text = "Wyniki",Icon = IconType.None,Type = MenuItemType.Header},
-                        new MenuItemViewModel{Icon = IconType.None,Type = MenuItemType.Divider},
-                        new MenuItemViewModel{Text = "Zapisz wynik do pliku",Icon = IconType.Save,Type = MenuItemType.TextAndIcon,ClickCommand = new RelayCommand(SaveResults)},
-                        new MenuItemViewModel{Text = "Zapamiętaj wynik",Icon = IconType.Drive,Type = MenuItemType.TextAndIcon,ClickCommand = new RelayCommand(StoreResult)},
-                        new MenuItemViewModel{Text = "Wyczyść wynik",Icon = IconType.Cancel,Type = MenuItemType.TextAndIcon,ClickCommand = new RelayCommand(ClearResults)}
-                    },
-                },
-            };
-
-            MenuPopupDataContext = poupViewModel;
-        }
-
-        #endregion
-
     }
 }

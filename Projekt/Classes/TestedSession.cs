@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Projekt.Classes;
 
@@ -44,9 +42,10 @@ namespace Projekt
         public bool WasClassified { get; set; }
 
         /// <summary>
-        /// Metoda użyta do klasyfikacji
+        ///     Metoda użyta do klasyfikacji
         /// </summary>
         public DetectionType DetectionMethodUsed { get; set; }
+
         #endregion
 
         #region Public Methods
@@ -57,25 +56,36 @@ namespace Projekt
         /// <param name="listOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
         public void PerformOnlineDetection(List<DtmcGroup> listOfDtmc, TestedGroup myGroup)
         {
-            if (Requests.Count <= 0) return;
+            if (Requests.Count == 1)
+            {
+                Rresult = 0;
+                Hresult = 0;
+            }
 
             foreach (var dtmc in listOfDtmc)
             {
-                Result = 0;
-                Result += GetStartChanceValue(dtmc);
+                if (Requests.Count == 1)
+                {
+                    if (dtmc.Sessions[0].RealType == SessionTypes.Robot)
+                    {
+                        Rresult += GetStartChanceValue(dtmc);
+                    }
+                    else
+                    {
+                        Hresult += GetStartChanceValue(dtmc);
+                    }
+                }
 
-                Result += GetLogPr(dtmc, Requests.Count - 1);
 
                 if (dtmc.Sessions[0].RealType == SessionTypes.Robot)
                 {
-                    if (Result > Rresult || Rresult == 0) Rresult = Result;
+                    Rresult += GetLogPr(dtmc, Requests.Count - 1);
                 }
                 else
                 {
-                    if (Result > Hresult || Hresult == 0) Hresult = Result;
+                    Hresult += GetLogPr(dtmc, Requests.Count - 1);
                 }
             }
-           
 
 
             // Przepracowano k-sesji
@@ -93,7 +103,7 @@ namespace Projekt
                 }
                 else if (d < 0)
                 {
-                    PredictedType =SessionTypes.Human;
+                    PredictedType = SessionTypes.Human;
                     DetectionMethodUsed = DetectionType.Online;
                 }
             }
@@ -101,8 +111,6 @@ namespace Projekt
             if (Requests.Count == NumberOfRequests && !WasClassified) PerformOfflineDetection(listOfDtmc);
 
             if (PredictedType == SessionTypes.Human || PredictedType == SessionTypes.Robot) WasClassified = true;
-
-
         }
 
         /// <summary>
@@ -119,10 +127,7 @@ namespace Projekt
                 Result = 0;
                 Result += GetStartChanceValue(Dtmc);
 
-                for (int i = 0; i < Requests.Count; i++)
-                {
-                    Result += GetLogPr(Dtmc, i);
-                }
+                for (var i = 0; i < Requests.Count; i++) Result += GetLogPr(Dtmc, i);
 
                 if (Dtmc.Sessions[0].RealType == SessionTypes.Robot)
                 {
@@ -167,27 +172,19 @@ namespace Projekt
         {
             float result = 0;
 
-            if (firstReqPos == 0 || firstReqPos == Requests.Count)
-            {
-                return 0f;
-            }
+            if (firstReqPos == 0 || firstReqPos == Requests.Count) return 0f;
 
-            var firstIndex = Dtmc.UniqueRequest.IndexOf(Dtmc.UniqueRequest.Find(x => x.NameType == Requests[firstReqPos - 1]));
-            var nextIndex = Dtmc.UniqueRequest.IndexOf(Dtmc.UniqueRequest.Find(x => x.NameType == Requests[firstReqPos]));
+            var firstIndex =
+                Dtmc.UniqueRequest.IndexOf(Dtmc.UniqueRequest.Find(x => x.NameType == Requests[firstReqPos - 1]));
+            var nextIndex =
+                Dtmc.UniqueRequest.IndexOf(Dtmc.UniqueRequest.Find(x => x.NameType == Requests[firstReqPos]));
 
             if (nextIndex == -1 || firstIndex == -1)
-            {
                 result += 0.00001f;
-            }
             else
-            {
                 result += Dtmc.Probability[firstIndex, nextIndex];
-            }
 
-            if (result == 0)
-            {
-                result += 0.00001f;
-            }
+            if (result == 0) result += 0.00001f;
 
             result += (float)Math.Log10(result);
 

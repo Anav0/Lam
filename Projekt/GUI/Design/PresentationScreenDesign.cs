@@ -1,5 +1,4 @@
-﻿using Projekt.GUI.UserControls;
-using Projekt.ViewModels;
+﻿using Projekt.ViewModels;
 
 namespace Projekt
 {

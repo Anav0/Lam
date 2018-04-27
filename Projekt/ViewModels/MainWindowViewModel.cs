@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,6 @@ using Projekt.Animations;
 using Projekt.Classes;
 using Projekt.Commands;
 using Projekt.GUI.UserControls;
-using Projekt.GUI.Windows;
 using Projekt.ViewModels;
 
 namespace Projekt
@@ -35,6 +35,10 @@ namespace Projekt
                 PerentViewModel = this
             };
             MainContent = new PresentationScreenControl(viewmodel);
+
+            LoadSavedResults(PathToSavedResults, FileType.Xml);
+            LoadSavedDtmc(PathToSavedDTMCs, FileType.Json);
+
         }
 
         #region Public Command
@@ -50,6 +54,13 @@ namespace Projekt
         public ICommand GetDataFromFileCommand { get; set; }
 
         #endregion region
+
+        #region Private properties
+
+        private string PathToSavedDTMCs { get; } = AppDomain.CurrentDomain.BaseDirectory + @"\SavedDTMC\";
+
+        private string PathToSavedResults { get; } = AppDomain.CurrentDomain.BaseDirectory + @"\SavedResults\";
+        #endregion
 
         #region Public Properties
 
@@ -78,6 +89,10 @@ namespace Projekt
         /// </summary>
         public UserControl MainContent { get; set; }
 
+        public FilesListViewModel SavedResultsData { get; set; }
+
+        public FilesListViewModel SavedDTMCData { get; set; }
+
         #endregion
 
         #region Command Methods
@@ -91,7 +106,7 @@ namespace Projekt
         {
             IsMenuExpand ^= true;
             var sb = new Storyboard();
-            var menu = parameter as DockPanel;
+            var menu = parameter as FrameworkElement;
             sb.Animate(IsMenuExpand, menu, 0.3, 0.2, 0.2);
         }
 
@@ -111,43 +126,142 @@ namespace Projekt
                 var linesInFile = File.ReadAllLines(file);
                 linesInFile = linesInFile.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
+                if (linesInFile.Length == 0)
+                {
+                    MessageBox.Show("W pliku nie było danych które można wczytać", "Błąd",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 if (obj != null)
                 {
+                    if (DTMCGroupList.Count < 2 || DTMCGroupList.Count > 2)
+                    {
+                        DTMCGroupList = new List<DtmcGroup>();
+                        MessageBox.Show(
+                            "Nie wczytano odpowiedniej liczby plików testowych aby przeprowadzenie testu było możliwe",
+                            "Błąd",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
+                    if (DTMCGroupList.FindAll(x => x.Sessions[0].RealType == SessionTypes.Human).Count > 1)
+                    {
+                        DTMCGroupList = new List<DtmcGroup>();
+                        MessageBox.Show(
+                            "Wczytano więcej niż jeden plik testowy typu H", "Błąd",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    else if (DTMCGroupList.FindAll(x => x.Sessions[0].RealType == SessionTypes.Robot).Count > 1)
+                    {
+                        DTMCGroupList = new List<DtmcGroup>();
+                        MessageBox.Show(
+                            "Wczytano więcej niż jeden plik testowy typu R", "Błąd",
+                            MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+
                     TestGroupsList = new List<TestedGroup>();
-                    if ((string)obj == "Online")
-                    {
-                        TestedFromFile(linesInFile, DetectionType.Online);
-                    }
-                    else
-                    {
-                        TestedFromFile(linesInFile, DetectionType.Offline);
-                    }
+                    CreateTestedFromFile(linesInFile,
+                        (string)obj == "Online" ? DetectionType.Online : DetectionType.Offline);
                 }
                 else
                 {
-                    DtmcFromFile(linesInFile);
+                    CreateDtmcFromFile(linesInFile);
+                    if (DTMCGroupList[DTMCGroupList.Count - 1].Sessions.Count > 0)
+                    {
+                        MessageBox.Show("Wczytano plik i utworzono DTMC", "Sukces",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
             }
+        }
 
 
+        #endregion
+
+        #region Private methods
+
+        private void LoadSavedResults(string path, FileType fileType)
+        {
+            if (SavedResultsData == null) SavedResultsData = new FilesListViewModel();
+            Directory.CreateDirectory(path);
+
+            Serializer serializer = new Serializer();
+
+            foreach (var filename in Directory.EnumerateFiles(path))
+            {
+                FileViewModel viewModel = new FileViewModel
+                {
+                    IsSelected = false,
+                    FilePath = filename,
+                    Parent = SavedResultsData,
+                    DisplayDataFrame = (PresentationScreenViewModel)MainContent.DataContext
+
+                };
+                if (fileType == FileType.Json)
+                {
+                    viewModel.FileName = serializer.ReadFromJsonFile<ResultsViewModel>(filename).GivenName;
+                }
+                else if (fileType == FileType.Xml)
+                {
+                    viewModel.FileName = serializer.ReadFromXmlFile<ResultsViewModel>(filename).GivenName;
+                }
+                SavedResultsData.List.Add(viewModel);
+
+            }
+        }
+
+        private void LoadSavedDtmc(string path, FileType fileType)
+        {
+            if (SavedDTMCData == null) SavedDTMCData = new FilesListViewModel();
+            Directory.CreateDirectory(path);
+
+            Serializer serializer = new Serializer();
+
+            foreach (var filename in Directory.EnumerateFiles(path))
+            {
+                FileViewModel viewModel = new FileViewModel
+                {
+                    IsSelected = false,
+                    FilePath = filename,
+                    Parent = SavedDTMCData,
+                    DisplayDataFrame = (PresentationScreenViewModel)MainContent.DataContext
+
+                };
+                if (fileType == FileType.Json)
+                {
+                    viewModel.FileName = serializer.ReadFromJsonFile<TestedGroup>(filename).Name;
+                    SavedDTMCData.List.Add(viewModel);
+
+                }
+                else if (fileType == FileType.Xml)
+                {
+                    viewModel.FileName = serializer.ReadFromXmlFile<TestedGroup>(filename).Name;
+                    SavedDTMCData.List.Add(viewModel);
+                }
+
+            }
         }
 
         private void DisplayResults()
         {
-            List<ResultsViewModel> resultsToDisplay = new List<ResultsViewModel>();
-            ModelEvaluation evaluator = new ModelEvaluation();
-            int index = 0;
+            var resultsToDisplay = new ObservableCollection<ResultsViewModel>();
+            var evaluator = new ModelEvaluation();
+            var index = 0;
 
             foreach (var group in TestGroupsList)
             {
                 index++;
                 double k = group.Sessions[0].Kpercent;
 
-                float incorrectHitsProcent = ((float)(group.WronglyAsHuman + group.WronglyAsRobot) / group.Sessions.Count) * 100;
+                var incorrectHitsProcent =
+                    (float)(group.WronglyAsHuman + group.WronglyAsRobot) / group.Sessions.Count * 100;
                 var correctHits = 100 - incorrectHitsProcent;
+                evaluator.EvaluateResults(group);
 
-
-                ResultsViewModel resultsViewModel = new ResultsViewModel
+                var resultsViewModel = new ResultsViewModel
                 {
                     FailurePercent = incorrectHitsProcent,
                     SuccessPercent = correctHits,
@@ -157,48 +271,38 @@ namespace Projekt
                     OnlineMethodUsed = group.SumOnlineDetections,
                     OfflineMethodUsed = group.SumOfflineDetections,
                     MethodSelected = group.DetectionMethodSelected,
-                    Recall = evaluator.CalculateRecall(group),
-                    Precision = evaluator.CalculatePrecision(group),
-                    Measure = evaluator.CalculateMeasure(),
+                    Recall = evaluator.Recall,
+                    Precision = evaluator.Precision,
+                    Measure = evaluator.Measure,
+                    Accuracy = evaluator.Accuracy,
                     TrueNegative = evaluator.TrueNegative,
                     TruePositive = evaluator.TruePositive,
                     FalsePositive = evaluator.FalsePositive,
                     FalseNegative = evaluator.FalseNegative,
-
+                    GivenName = "Wynik" + index
                 };
-                resultsViewModel.GivenName = "Wynik" + index;
                 resultsToDisplay.Add(resultsViewModel);
             }
 
-            Results results = new Results(resultsToDisplay[0]);
+            var results = new Results(resultsToDisplay[0]);
 
             if (MainContent.GetType() == typeof(PresentationScreenControl))
             {
-                PresentationScreenControl mainScreen = MainContent as PresentationScreenControl;
+                var mainScreen = MainContent as PresentationScreenControl;
                 mainScreen.mViewModel.ContentPresented = results;
-                SendDataToBeSaved(resultsToDisplay);
+
+                if (resultsToDisplay.Count > 0)
+                {
+                    mainScreen.mViewModel.ActiveResults = resultsToDisplay;
+                    mainScreen.mViewModel.HasResultsShown = true;
+                }
+
             }
         }
 
-        private void SendDataToBeSaved(List<ResultsViewModel> list)
-        {
-            if (list == null || list.Count <= 0)
-            {
-                MessageBox.Show("Nie można zapisać danych", "Błąd", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-            if (MainContent.GetType() == typeof(PresentationScreenControl))
-            {
-                PresentationScreenControl mainScreen = MainContent as PresentationScreenControl;
-                mainScreen.mViewModel.ActiveResults = list;
-                mainScreen.mViewModel.HasResultsShown = true;
-            }
-        }
-
-        private void PerformDetection(TestedGroup group,TestedSession session, DetectionType type)
+        private void PerformDetection(TestedGroup group, TestedSession session, DetectionType type)
         {
             if (DTMCGroupList != null && DTMCGroupList.Count >= 2)
-            {
                 try
                 {
                     switch (type)
@@ -212,7 +316,6 @@ namespace Projekt
                             session.PerformOfflineDetection(DTMCGroupList);
 
                             break;
-
                     }
                 }
                 catch (ArgumentException ex)
@@ -229,12 +332,10 @@ namespace Projekt
                         "Wczytywanie z pliku", MessageBoxButton.OK,
                         MessageBoxImage.Error);
                 }
-            }
             else
                 MessageBox.Show(
                     "Nie można poddać sesji ocenie gdyż nie wczytano wcześniej pików testowych",
                     "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
-
         }
 
         private DialogWindow CreateParameterDialog()
@@ -254,25 +355,14 @@ namespace Projekt
             return window;
         }
 
-        private void TestedFromFile(string[] textLines, DetectionType detectionType)
+        private void CreateTestedFromFile(string[] textLines, DetectionType detectionType)
         {
             var kwindow = CreateParameterDialog();
 
-            //Jeśli pusty to krzycz
-            if (textLines.Length == 0)
-            {
-                MessageBox.Show("W pliku nie było danych które można by wczytać", "Błąd",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            if (detectionType == DetectionType.Online) kwindow.ShowDialog();
 
-            if (detectionType == DetectionType.Online)
-            {
-                kwindow.ShowDialog();
-            }
+            var testedGroup = new TestedGroup { DetectionMethodSelected = detectionType };
 
-            TestedGroup testedGroup = new TestedGroup();
-            testedGroup.DetectionMethodSelected = detectionType;
             foreach (var line in textLines)
             {
                 var session = new TestedSession();
@@ -292,7 +382,7 @@ namespace Projekt
                 }
                 catch (FormatException)
                 {
-                    MessageBox.Show("Podano zły tym danych", "Błąd",
+                    MessageBox.Show("Podano zły typ danych", "Błąd",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
@@ -308,15 +398,10 @@ namespace Projekt
                 session.NumberOfRequests = requests.Length - 1;
 
                 if (requests[0] == "R")
-                {
                     session.RealType = SessionTypes.Robot;
-                }
-                else if (requests[0] == "H")
-                {
-                    session.RealType = SessionTypes.Human;
-                }
+                else if (requests[0] == "H") session.RealType = SessionTypes.Human;
 
-                for (int i = 1; i < requests.Length; i++)
+                for (var i = 1; i < requests.Length; i++)
                 {
                     var currentRequest = new Request();
                     session.AddRequest(requests[i]);
@@ -327,11 +412,11 @@ namespace Projekt
                     testedGroup.AddUniqueRequest(currentRequest);
 
                     if (!session.WasClassified && detectionType == DetectionType.Online)
-                    {
-                        PerformDetection(testedGroup,session, DetectionType.Online);
-                    }
+                        PerformDetection(testedGroup, session, DetectionType.Online);
                 }
-                if (detectionType == DetectionType.Offline) PerformDetection(testedGroup, session, DetectionType.Offline);
+
+                if (detectionType == DetectionType.Offline)
+                    PerformDetection(testedGroup, session, DetectionType.Offline);
 
                 testedGroup.AddSession(session);
 
@@ -339,24 +424,15 @@ namespace Projekt
 
                 testedGroup.UniqueRequest.Sort((x, y) =>
                     string.Compare(x.NameType, y.NameType, StringComparison.Ordinal));
-
             }
 
             TestGroupsList.Add(testedGroup);
             DisplayResults();
         }
 
-        private void DtmcFromFile(string[] textLines)
+        private void CreateDtmcFromFile(string[] textLines)
         {
-            //Jeśli pusty to krzycz
-            if (textLines.Length == 0)
-            {
-                MessageBox.Show("W pliku nie było danych które można by wczytać", "Błąd",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            DtmcGroup dtmcGroup = new DtmcGroup();
+            var dtmcGroup = new DtmcGroup();
             var session = new Session();
 
             foreach (var line in textLines)
@@ -367,15 +443,10 @@ namespace Projekt
 
 
                 if (requests[0] == "R")
-                {
                     session.RealType = SessionTypes.Robot;
-                }
-                else if (requests[0] == "H")
-                {
-                    session.RealType = SessionTypes.Human;
-                }
+                else if (requests[0] == "H") session.RealType = SessionTypes.Human;
 
-                for (int i = 2; i < requests.Length; i++)
+                for (var i = 2; i < requests.Length; i++)
                 {
                     var currentRequest = new Request();
                     session.AddRequest(requests[i]);
@@ -389,15 +460,27 @@ namespace Projekt
 
                 dtmcGroup.UniqueRequest.Sort((x, y) =>
                     string.Compare(x.NameType, y.NameType, StringComparison.Ordinal));
-
-
             }
+
             dtmcGroup.CalculateDTMC();
             DTMCGroupList.Add(dtmcGroup);
-            MessageBox.Show("Wczytano plik i utworzono DTMC", "Sukces",
-                MessageBoxButton.OK, MessageBoxImage.Information);
-        }
 
+            Serializer serializer = new Serializer();
+            dtmcGroup.Name = "Grupa " + dtmcGroup.Sessions[0].RealType;
+            serializer.WriteToJsonFile(PathToSavedDTMCs + Guid.NewGuid() + ".json", dtmcGroup);
+
+            FileViewModel viewmodel = new FileViewModel
+            {
+                FileName = dtmcGroup.Name,
+                FilePath = PathToSavedDTMCs + Guid.NewGuid() + ".json",
+                Parent = SavedDTMCData,
+            };
+            SavedDTMCData.List.Add(viewmodel);
+        }
     }
     #endregion
 }
+
+
+
+

@@ -4,69 +4,103 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="Projekt.GUI.Windows.MainWindow"
+             xmlns:projekt="clr-namespace:Projekt"
     mc:Ignorable="d"
     Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <Border>
-            <DockPanel Background="{StaticResource Teal400ColorBrush}"
-                       DockPanel.Dock="Left"
-                       x:Name="Menu"
-                       Margin="-230 0 0 0"
-                       Width="300">
 
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Width="225">
-                        <Button Padding="10"
+            <Grid Background="{StaticResource Teal400ColorBrush}"
+                      x:Name="Menu"
+                      Margin="-280 0 0 0"
+                      Width="350">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Action buttons-->
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
+                    <Button Padding="15"
+                            HorizontalContentAlignment="Left"
                                 Foreground="White"
                                 Style="{StaticResource StandardOpacityButtonStyle}"
                                 Content="Wczytaj pliki testowe i stwórz DTMC"
                                 Command="{Binding GetDataFromFileCommand}" />
 
-                        <Button Padding="10"
+                    <Button Padding="15"
+                            HorizontalContentAlignment="Left"
+
                                 Foreground="White"
                                 Style="{StaticResource StandardOpacityButtonStyle}"
                                 Content="Wczytaj i poddaj ocenie offline"
                                 Command="{Binding GetDataFromFileCommand}"
                                 CommandParameter="Offline" />
-                        <Button Padding="10"
+                    <Button Padding="15"
+                            HorizontalContentAlignment="Left"
                                 Foreground="White"
                                 Style="{StaticResource StandardOpacityButtonStyle}"
                                 Content="Wczytaj i poddaj ocenie online"
                                 Command="{Binding GetDataFromFileCommand}"
                                 CommandParameter="Online" />
 
-                    </StackPanel>
-                    <Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
+                </StackPanel>
+                <Separator Background="White" Height="10" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="0" />
+                <!--<Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
                             Content="{StaticResource FontAwesomInfoIcon}"
                             Foreground="White"
-                            Margin="10"
+                            Margin="10,0,0,10"
                             Command="{Binding ShpwAppInfoCommand}"
                             FontFamily="{StaticResource FontAwesome}"
                             VerticalAlignment="Bottom"
-                            HorizontalAlignment="Left" />
-                </DockPanel>
+                            HorizontalAlignment="Left" Grid.Row="1" />-->
+
+                <!--Remembered files list-->
+                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
+                    <Label Content="Wyniki poprzednich ocen"
+                               HorizontalAlignment="Left" 
+                           FontSize="16"
+                           FontWeight="DemiBold"
+                           VerticalAlignment="Top"
+                               Padding="10"
+                                Foreground="White"/>
+                    <projekt:FilesListControl DataContext="{Binding SavedResultsData}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
+                    <Label Content="Stworzone DTMC"
+                           HorizontalAlignment="Left" 
+                           FontSize="16"
+                           FontWeight="DemiBold"
+                           VerticalAlignment="Top"
+                           Padding="10"
+                           Foreground="White"/>
+                    <projekt:FilesListControl DataContext="{Binding SavedDTMCData}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
+                </StackPanel>
+
+
+                <!--Menu expand button-->
                 <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
                         Content="{StaticResource FontAwesomeMenuIcon}"
                         Foreground="White"
-                        Margin="10"
+                        Grid.Column="1"
+                        Grid.Row="0"
+
                         FontFamily="{StaticResource FontAwesome}"
                         Command="{Binding ExpandMenuCommand}"
                         CommandParameter="{Binding ElementName=Menu}"
                         VerticalAlignment="Top"
-                        HorizontalAlignment="Center" />
+                        HorizontalAlignment="Center"
+                        Padding="10"/>
+            </Grid>
 
-
-            </DockPanel>
             <Border.Effect>
                 <DropShadowEffect Opacity="0.2" />
             </Border.Effect>
         </Border>
         <Grid DockPanel.Dock="Right">
-
-
             <ContentPresenter Content="{Binding MainContent}" />
-
-
         </Grid>
     </DockPanel>
 </Window>

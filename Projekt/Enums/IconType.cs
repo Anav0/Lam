@@ -1,28 +1,28 @@
 ﻿namespace Projekt
 {
     /// <summary>
-    /// The types of icons to use within the application
+    ///     The types of icons to use within the application
     /// </summary>
     public enum IconType
     {
         /// <summary>
-        /// No icon
+        ///     No icon
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// A hdd icon
+        ///     A hdd icon
         /// </summary>
         Drive = 1,
 
         /// <summary>
-        /// A file icon
+        ///     A file icon
         /// </summary>
         Cancel = 2,
 
         /// <summary>
-        /// A floppy disk icon
+        ///     A floppy disk icon
         /// </summary>
-        Save = 4,
+        Save = 4
     }
 }

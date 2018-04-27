@@ -6,12 +6,13 @@
              xmlns:design="clr-namespace:Projekt"
              xmlns:local="clr-namespace:Projekt.GUI.UserControls"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800" >
+             d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Background="WhiteSmoke" d:DataContext="{x:Static design:PresentationScreenDesign.Instance}" x:Name="MainContainer">
+    <Grid Background="WhiteSmoke" d:DataContext="{x:Static design:PresentationScreenDesign.Instance}"
+          x:Name="MainContainer">
 
         <Grid.InputBindings>
-            <MouseBinding MouseAction="LeftClick" Command="{Binding ClickAwayCommand}"/>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding ClickAwayCommand}" />
         </Grid.InputBindings>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -42,22 +43,23 @@
                     Content="{StaticResource FontAwesomeEllipsisVerticalIcon}"
                     Foreground="White"
                     FontFamily="{StaticResource FontAwesome}"
-                    Command="{Binding ShowMenuCommand}"/>
+                    Command="{Binding ShowMenuCommand}" />
             </Grid>
-         
+
         </Border>
 
-        <ContentPresenter Grid.Row="1" Content="{Binding ContentPresented}" >
+        <ContentPresenter Grid.Row="1" Content="{Binding ContentPresented}">
             <ContentPresenter.InputBindings>
-                <MouseBinding MouseAction="LeftClick" Command="{Binding ClickAwayCommand}"/>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding ClickAwayCommand}" />
             </ContentPresenter.InputBindings>
         </ContentPresenter>
 
-        <design:BasePopup Visibility="{Binding mViewModel.MenuVisibility, Converter={design:VisibilityBoolValueConverter}, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:PresentationScreenControl}}}" 
-                          Grid.Row="1" 
-                          VerticalAlignment="Top" HorizontalAlignment="Right" 
-                          Margin="10 0 10 0"
-                          DataContext="{Binding MenuPopupDataContext}" />
+        <design:BasePopup
+            Visibility="{Binding mViewModel.MenuVisibility, Converter={design:VisibilityBoolValueConverter}, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:PresentationScreenControl}}}"
+            Grid.Row="1"
+            VerticalAlignment="Top" HorizontalAlignment="Right"
+            Margin="10 0 10 0"
+            DataContext="{Binding MenuPopupDataContext}" />
 
 
     </Grid>

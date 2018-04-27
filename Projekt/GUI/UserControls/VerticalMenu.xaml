@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="Projekt.VerticalMenu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:projekt="clr-namespace:Projekt"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="150" d:DesignWidth="250">
 
 
@@ -17,47 +17,48 @@
             <DataTemplate>
                 <Grid>
                     <!-- Header -->
-                    <StackPanel Orientation="Vertical" Visibility="{Binding Type, Converter={projekt:MenuItemTypeVisiblityConverter}, ConverterParameter=Header}" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Vertical"
+                                Visibility="{Binding Type, Converter={projekt:MenuItemTypeVisiblityConverter}, ConverterParameter=Header}"
+                                Grid.ColumnSpan="2">
                         <!-- Header text -->
                         <TextBlock Text="{Binding Text}"
                                    FontSize="16"
                                    Padding="0 5 10 5"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
-                                   Foreground="Black"/>
+                                   Foreground="Black" />
 
                         <!-- Header line -->
-                        <Border Height="0.75"  Background="DimGray" />
+                        <Border Height="0.75" Background="DimGray" />
                     </StackPanel>
 
                     <!-- Menu Item -->
                     <Border
-                            CornerRadius="8"
-                            Padding="2"
+                        CornerRadius="8"
+                        Padding="2"
                         Margin="5"
                         Background="White"
                         BorderBrush="White"
-                            Visibility="{Binding Type, Converter={projekt:MenuItemTypeVisiblityConverter}, ConverterParameter=TextAndIcon}" Grid.ColumnSpan="2"
-                        
-                            >
+                        Visibility="{Binding Type, Converter={projekt:MenuItemTypeVisiblityConverter}, ConverterParameter=TextAndIcon}"
+                        Grid.ColumnSpan="2">
                         <Border.Triggers>
                             <EventTrigger RoutedEvent="Button.MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="{StaticResource Teal500Color}" 
-                                                        Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.10"/>
+                                        <ColorAnimation To="{StaticResource Teal500Color}"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        Duration="0:0:0.10" />
 
-                                        <ColorAnimation To="White" 
+                                        <ColorAnimation To="White"
                                                         Storyboard.TargetName="icon"
-                                                        Storyboard.TargetProperty="Foreground.Color" 
-                                                        Duration="0:0:0.10"/>
-                                        
+                                                        Storyboard.TargetProperty="Foreground.Color"
+                                                        Duration="0:0:0.10" />
 
-                                        <ColorAnimation To="White" 
+
+                                        <ColorAnimation To="White"
                                                         Storyboard.TargetName="text"
-                                                        Storyboard.TargetProperty="Foreground.Color" 
-                                                        Duration="0:0:0.10"/>
+                                                        Storyboard.TargetProperty="Foreground.Color"
+                                                        Duration="0:0:0.10" />
 
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -65,22 +66,20 @@
                             <EventTrigger RoutedEvent="Button.MouseLeave">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="White" 
-                                                        Storyboard.TargetProperty="Background.Color" 
-                                                        Duration="0:0:0.10"/>
+                                        <ColorAnimation To="White"
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        Duration="0:0:0.10" />
 
-                                        <ColorAnimation To="{StaticResource Teal500Color}" 
+                                        <ColorAnimation To="{StaticResource Teal500Color}"
                                                         Storyboard.TargetName="icon"
-                                                        Storyboard.TargetProperty="Foreground.Color" 
-                                                        Duration="0:0:0.10"/>
+                                                        Storyboard.TargetProperty="Foreground.Color"
+                                                        Duration="0:0:0.10" />
 
 
-                                        <ColorAnimation To="{StaticResource DarkOuterSpaceColor}" 
+                                        <ColorAnimation To="{StaticResource DarkOuterSpaceColor}"
                                                         Storyboard.TargetName="text"
-                                                        Storyboard.TargetProperty="Foreground.Color" 
-                                                        Duration="0:0:0.10"/>
-
-
+                                                        Storyboard.TargetProperty="Foreground.Color"
+                                                        Duration="0:0:0.10" />
 
 
                                     </Storyboard>
@@ -90,7 +89,7 @@
                         <!-- Grid container for text and icon -->
                         <Grid>
                             <Grid.InputBindings>
-                                <MouseBinding MouseAction="LeftClick" Command="{Binding ClickCommand}"/>
+                                <MouseBinding MouseAction="LeftClick" Command="{Binding ClickCommand}" />
                             </Grid.InputBindings>
                             <Grid.ColumnDefinitions>
                                 <!-- Icon -->
@@ -107,8 +106,7 @@
                                        Text="{Binding Icon, Converter={projekt:IconTypeToFontAwesomeConverter}}"
                                        Background="Transparent"
                                        Foreground="{StaticResource Teal500ColorBrush}"
-                                       FontSize="16"
-                                       />
+                                       FontSize="16" />
 
                             <!-- Text -->
                             <TextBlock Name="text"

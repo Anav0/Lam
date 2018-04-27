@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Projekt
 {
@@ -48,54 +46,35 @@ namespace Projekt
         {
             Sessions.Add(session);
             if (session.RealType == SessionTypes.Robot)
-            {
                 RobotCount++;
-            }
             else if (session.RealType == SessionTypes.Human)
-            {
                 HumanCount++;
-            }
             else
-            {
                 UnknownCount++;
-            }
         }
+
         /// <summary>
-        /// Notuję informację o wynikach klasyfikacji
+        ///     Notuję informację o wynikach klasyfikacji
         /// </summary>
         /// <param name="session">Sprawdzana sesja</param>
         public void CalculateQuantities(TestedSession session)
         {
             if (session.RealType == SessionTypes.Human && session.PredictedType == session.RealType)
-            {
                 CorrectlyAsHuman++;
-            }
-            else if (session.RealType == SessionTypes.Robot&& session.PredictedType == session.RealType)
-            {
+            else if (session.RealType == SessionTypes.Robot && session.PredictedType == session.RealType)
                 CorrectlyAsRobot++;
-            }
             else if (session.RealType == SessionTypes.Human &&
                      session.PredictedType == SessionTypes.Robot)
-            {
                 WronglyAsRobot++;
-            }
             else if (session.RealType == SessionTypes.Robot &&
                      session.PredictedType == SessionTypes.Human)
-            {
                 WronglyAsHuman++;
 
-            }
-
             if (session.DetectionMethodUsed == DetectionType.Offline)
-            {
                 SumOfflineDetections++;
-            }
-            else if (session.DetectionMethodUsed == DetectionType.Online)
-            {
-                SumOnlineDetections++;
-            }
+            else if (session.DetectionMethodUsed == DetectionType.Online) SumOnlineDetections++;
         }
-      
+
         #endregion
     }
 }

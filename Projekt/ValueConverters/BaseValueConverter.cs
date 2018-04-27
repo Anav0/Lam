@@ -6,7 +6,7 @@ using System.Windows.Markup;
 namespace Projekt
 {
     /// <summary>
-    /// A base value converter that allows direct XAML usage
+    ///     A base value converter that allows direct XAML usage
     /// </summary>
     /// <typeparam name="T">The type of this value converter</typeparam>
     public abstract class BaseValueConverter<T> : MarkupExtension, IValueConverter
@@ -15,16 +15,16 @@ namespace Projekt
         #region Private Members
 
         /// <summary>
-        /// A single static instance of this value converter
+        ///     A single static instance of this value converter
         /// </summary>
-        private static T Converter = null;
+        private static T Converter;
 
         #endregion
 
         #region Markup Extension Methods
 
         /// <summary>
-        /// Provides a static instance of the value converter 
+        ///     Provides a static instance of the value converter
         /// </summary>
         /// <param name="serviceProvider">The service provider</param>
         /// <returns></returns>
@@ -38,7 +38,7 @@ namespace Projekt
         #region Value Converter Methods
 
         /// <summary>
-        /// The method to convert one type to another
+        ///     The method to convert one type to another
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -48,7 +48,7 @@ namespace Projekt
         public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
 
         /// <summary>
-        /// The method to convert a value back to it's source type
+        ///     The method to convert a value back to it's source type
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>

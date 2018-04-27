@@ -1,6 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
-using Projekt.ViewModels;
 
 namespace Projekt.GUI.UserControls
 {
@@ -9,8 +7,6 @@ namespace Projekt.GUI.UserControls
     /// </summary>
     public partial class PresentationScreenControl : UserControl
     {
-        public PresentationScreenViewModel mViewModel {get; set; }
-
         public PresentationScreenControl(PresentationScreenViewModel mViewModel)
         {
             InitializeComponent();
@@ -18,5 +14,6 @@ namespace Projekt.GUI.UserControls
             DataContext = mViewModel;
         }
 
+        public PresentationScreenViewModel mViewModel { get; set; }
     }
 }

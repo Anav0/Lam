@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Projekt.Classes
@@ -15,20 +14,6 @@ namespace Projekt.Classes
             RealType = SessionTypes.NotRecognized;
         }
 
-        #region Public properties
-
-        /// <summary>
-        ///     Lista żądań
-        /// </summary>
-        public List<string> Requests { get; set; }
-
-        /// <summary>
-        ///     Rzeczywisty typ sesji
-        /// </summary>
-        public SessionTypes RealType { get; set; }
-
-        #endregion
-
         #region Public methods
 
         /// <summary>
@@ -42,13 +27,9 @@ namespace Projekt.Classes
                 request = request.First().ToString().ToUpper() + request.Substring(1);
 
                 if (request == "H")
-                {
                     RealType = SessionTypes.Human;
-                }
                 else if (request == "R")
-                {
                     RealType = SessionTypes.Robot;
-                }
                 else
                     Requests.Add(request);
             }
@@ -56,6 +37,18 @@ namespace Projekt.Classes
 
         #endregion
 
+        #region Public properties
 
+        /// <summary>
+        ///     Lista żądań
+        /// </summary>
+        public List<string> Requests { get; set; }
+
+        /// <summary>
+        ///     Rzeczywisty typ sesji
+        /// </summary>
+        public SessionTypes RealType { get; set; }
+
+        #endregion
     }
 }

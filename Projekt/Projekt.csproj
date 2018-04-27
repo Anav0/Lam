@@ -40,17 +40,8 @@
     <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Apis, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.32.2\lib\net45\Google.Apis.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Apis.Core, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.Core.1.32.2\lib\net45\Google.Apis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.32.2.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.32.2\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Webfonts.v1, Version=1.32.2.426, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Webfonts.v1.1.32.2.426\lib\net45\Google.Apis.Webfonts.v1.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -98,6 +89,7 @@
     <Compile Include="Classes\DtmcGroup.cs" />
     <Compile Include="Classes\Group.cs" />
     <Compile Include="Classes\ModelEvaluation.cs" />
+    <Compile Include="Classes\Serializer.cs" />
     <Compile Include="Classes\TestedGroup.cs" />
     <Compile Include="Classes\TestedSession.cs" />
     <Compile Include="Enums\DetectionType.cs" />
@@ -107,10 +99,13 @@
     <Compile Include="Classes\Session.cs" />
     <Compile Include="Enums\ElementHorizontalAlignment.cs" />
     <Compile Include="Enums\MenuItemType.cs" />
+    <Compile Include="Enums\FileType.cs" />
     <Compile Include="Enums\SessionTypes.cs" />
     <Compile Include="ExtensionMethods\IconTypeExtensions.cs" />
     <Compile Include="GUI\Design\DataGridDesign.cs" />
     <Compile Include="GUI\Design\DialogWindowDesign.cs" />
+    <Compile Include="GUI\Design\FileDesign.cs" />
+    <Compile Include="GUI\Design\FilesListDesign.cs" />
     <Compile Include="GUI\Design\ResultsDesign.cs" />
     <Compile Include="GUI\Design\PresentationScreenDesign.cs" />
     <Compile Include="GUI\Design\MenuDesignModel.cs" />
@@ -122,6 +117,9 @@
     <Compile Include="Animations\MenuAnimation.cs" />
     <Compile Include="GUI\UserControls\BasePopup.xaml.cs">
       <DependentUpon>BasePopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\UserControls\FileControl.xaml.cs">
+      <DependentUpon>FileControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\UserControls\Results.xaml.cs">
       <DependentUpon>Results.xaml</DependentUpon>
@@ -144,6 +142,10 @@
     <Compile Include="ViewModels\BasePopupViewModel.cs" />
     <Compile Include="ViewModels\BasicViewModel.cs" />
     <Compile Include="ViewModels\DialogWindowViewModel.cs" />
+    <Compile Include="GUI\UserControls\FilesListControl.xaml.cs">
+      <DependentUpon>FilesListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\FileViewModel.cs" />
     <Compile Include="ViewModels\ResultsViewModel.cs" />
     <Compile Include="ViewModels\PresentationScreenViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="GUI\Windows\InfoWindow.xaml.cs">
       <DependentUpon>InfoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\FilesListViewModel.cs" />
     <Page Include="Dictionaries\Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -198,6 +201,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\UserControls\FileControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\UserControls\Results.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -232,6 +239,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Windows\InfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\UserControls\FilesListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

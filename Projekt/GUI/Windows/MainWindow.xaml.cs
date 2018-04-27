@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Projekt.ViewModels;
 
 namespace Projekt.GUI.Windows
 {

@@ -1,5 +1,4 @@
-﻿
-namespace Projekt
+﻿namespace Projekt
 {
     public enum DetectionType
     {

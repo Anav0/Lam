@@ -23,11 +23,11 @@
                    Foreground="SlateGray"
                    Text="{Binding Message}" />
 
-        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding KValue}" 
-                 HorizontalAlignment="Center"/>
+        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding KValue}"
+                 HorizontalAlignment="Center" />
 
-        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding DeltaValue}" 
-                 HorizontalAlignment="Center"  />
+        <TextBox Margin="20" Style="{StaticResource BasicTextBox}" Text="{Binding DeltaValue}"
+                 HorizontalAlignment="Center" />
 
 
         <Button Content="{Binding ButtonContent}"

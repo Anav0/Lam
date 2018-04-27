@@ -4,6 +4,14 @@ namespace Projekt.ViewModels
 {
     public class ResultsViewModel : BasicViewModel
     {
+        public List<string> PropertiesToList()
+        {
+            var list = new List<string>();
+
+            foreach (var prop in GetType().GetProperties()) list.Add(prop.Name + " " + prop.GetValue(this, null));
+
+            return list;
+        }
 
         #region Public properties
 
@@ -37,21 +45,10 @@ namespace Projekt.ViewModels
 
         public float Precision { get; set; }
 
+        public float Accuracy { get; set; }
+
         public float Measure { get; set; }
 
         #endregion
-
-        public List<string> PropertiesToList()
-        {
-            List<string> list = new List<string>();
-
-            foreach (var prop in GetType().GetProperties())
-            {
-                list.Add(prop.Name + " " + prop.GetValue(this, null));
-            }
-
-            return list;
-        }
-
     }
 }

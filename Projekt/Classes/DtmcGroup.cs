@@ -1,9 +1,7 @@
-﻿
-namespace Projekt
+﻿namespace Projekt
 {
     public class DtmcGroup : Group
     {
-
         #region Public Properties
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Projekt
             {
                 request.SessionStarts = Sessions.FindAll(x => x.Requests[0] == request.NameType).Count;
 
-                request.StarChances = (double)request.SessionStarts / Sessions.Count;
+                request.StarChances = (double) request.SessionStarts / Sessions.Count;
             }
         }
 
@@ -60,12 +58,10 @@ namespace Projekt
                 }
 
             for (var i = 0; i < UniqueRequest.Count; i++)
-                for (var j = 0; j < UniqueRequest.Count; j++)
-                    Probability[i, j] /= UniqueRequest[i].Quantity;
+            for (var j = 0; j < UniqueRequest.Count; j++)
+                Probability[i, j] /= UniqueRequest[i].Quantity;
         }
+
         #endregion
     }
-
-
-
 }

@@ -2,7 +2,6 @@
 {
     public class ModelEvaluation
     {
-
         #region Public properties
 
         public float TruePositive { get; set; }
@@ -22,38 +21,30 @@
 
         public float Precision { get; set; }
 
+        public float Accuracy { get; set; }
+
         public float Measure { get; set; }
 
         #endregion
 
         #region Public methods
 
-        public float CalculateRecall(TestedGroup group)
+        public void EvaluateResults(TestedGroup group)
         {
-            float recall = (float)group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsHuman);
+
             TruePositive = group.CorrectlyAsRobot;
+            FalsePositive = group.WronglyAsRobot;
+
+            TrueNegative = group.CorrectlyAsHuman;
             FalseNegative = group.WronglyAsHuman;
 
-            FalseNegativeRate = 1 - recall;
-            Recall = recall;
+            Recall = (float) group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsHuman);
+            Precision =  (float)group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsRobot);
+            Accuracy = (TruePositive + TrueNegative) / (TruePositive + TrueNegative + FalsePositive + FalseNegative);
+            Measure = Recall + Precision;
 
-            return recall;
-        }
-
-        public float CalculatePrecision(TestedGroup group)
-        {
-            float precision;
-
-            Precision = precision = (float)group.CorrectlyAsRobot / (group.CorrectlyAsRobot + group.WronglyAsRobot);
-
-            FalsePositive = group.WronglyAsRobot;
-            FalsePositiveRate = 1 - precision;
-            return precision;
-        }
-
-        public float CalculateMeasure()
-        {
-            return Measure = Recall + Precision;
+            FalsePositiveRate = 1 - Precision;
+            FalseNegativeRate = 1 - Recall;
         }
 
         #endregion

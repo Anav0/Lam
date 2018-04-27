@@ -3,11 +3,11 @@
 namespace Projekt
 {
     /// <summary>
-    ///     Interaction logic for BasePopup.xaml
+    ///     Interaction logic for RememberedFile.xaml
     /// </summary>
-    public partial class BasePopup : UserControl
+    public partial class FileControl : UserControl
     {
-        public BasePopup()
+        public FileControl()
         {
             InitializeComponent();
         }
