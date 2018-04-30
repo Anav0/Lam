@@ -83,6 +83,7 @@ namespace Projekt
 
                 try
                 {
+                    //TODO: optimise for better performance
                     var dataFrame = serializer.ReadFromJsonFile<TestedGroup>(FilePath).AsResultsControl();
 
                     DisplayDataFrame.ContentPresented = dataFrame;

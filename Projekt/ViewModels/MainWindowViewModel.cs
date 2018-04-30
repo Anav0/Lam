@@ -153,7 +153,7 @@ namespace Projekt
                         var fileViewModel = selectedResults[index];
                         fileViewModel.WasEvaluated = true;
                         DisplayResults(testedGroup);
-                        //StoreGroup(testedGroup, fileViewModel.FilePath);
+                        StoreGroup(testedGroup, fileViewModel.FilePath);
                         index++;
                     }
                    
@@ -193,7 +193,7 @@ namespace Projekt
                     var fileViewModel = selectedResults[index];
                     fileViewModel.WasEvaluated = true;
                     DisplayResults(testedGroup);
-                    //StoreGroup(testedGroup, fileViewModel.FilePath);
+                    StoreGroup(testedGroup, fileViewModel.FilePath);
                     index++;
                 }
             }
