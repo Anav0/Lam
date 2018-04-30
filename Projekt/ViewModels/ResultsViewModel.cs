@@ -49,6 +49,7 @@ namespace Projekt.ViewModels
 
         public float Measure { get; set; }
 
+
         #endregion
     }
 }

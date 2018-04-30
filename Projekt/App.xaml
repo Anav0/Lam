@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="Dictionaries/Buttons.xaml" />
                 <ResourceDictionary Source="Dictionaries/TextBoxs.xaml" />
                 <ResourceDictionary Source="Dictionaries/RadioButtons.xaml" />
+                <ResourceDictionary Source="Dictionaries/Scroll.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

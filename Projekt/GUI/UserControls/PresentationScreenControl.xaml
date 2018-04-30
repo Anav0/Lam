@@ -16,7 +16,7 @@
         </Grid.InputBindings>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="12*" />
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -34,8 +34,8 @@
                     <ColumnDefinition Width="70" />
                 </Grid.ColumnDefinitions>
                 <Label Content="{Binding Title}"
-                       Background="CadetBlue" Foreground="WhiteSmoke"
-                       FontWeight="DemiBold" FontSize="16"
+                       Background="{StaticResource DarkMainColorBrush}" Foreground="WhiteSmoke"
+                       FontWeight="DemiBold" FontSize="{StaticResource FontSizeLarge}"
                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2" />
                 <Button
                     Grid.Column="1"

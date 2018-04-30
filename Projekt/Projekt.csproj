@@ -90,10 +90,12 @@
     <Compile Include="Classes\Group.cs" />
     <Compile Include="Classes\ModelEvaluation.cs" />
     <Compile Include="Classes\Serializer.cs" />
+    <Compile Include="Classes\StateSaver.cs" />
     <Compile Include="Classes\TestedGroup.cs" />
     <Compile Include="Classes\TestedSession.cs" />
     <Compile Include="Enums\DetectionType.cs" />
     <Compile Include="Enums\ElementVerticalAligment.cs" />
+    <Compile Include="Enums\FileControlRepresents.cs" />
     <Compile Include="Enums\IconType.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Session.cs" />
@@ -111,9 +113,6 @@
     <Compile Include="GUI\Design\MenuDesignModel.cs" />
     <Compile Include="GUI\Design\SessionItemDesign.cs" />
     <Compile Include="GUI\Design\SessionItemListDesign.cs" />
-    <Compile Include="GUI\DataGrid.xaml.cs">
-      <DependentUpon>DataGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Animations\MenuAnimation.cs" />
     <Compile Include="GUI\UserControls\BasePopup.xaml.cs">
       <DependentUpon>BasePopup.xaml</DependentUpon>
@@ -121,8 +120,8 @@
     <Compile Include="GUI\UserControls\FileControl.xaml.cs">
       <DependentUpon>FileControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\UserControls\Results.xaml.cs">
-      <DependentUpon>Results.xaml</DependentUpon>
+    <Compile Include="GUI\UserControls\ResultsControl.xaml.cs">
+      <DependentUpon>ResultsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\UserControls\PresentationScreenControl.xaml.cs">
       <DependentUpon>PresentationScreenControl.xaml</DependentUpon>
@@ -185,18 +184,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUI\DataGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GUI\SessionItemList.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GUI\SessionItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GUI\UserControls\BasePopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,7 +192,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\UserControls\Results.xaml">
+    <Page Include="GUI\UserControls\ResultsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dictionaries\Scroll.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -267,6 +258,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Resource Include="Fonts\FontAwsome.ttf" />
+    <Resource Include="Fonts\FontAwsome5.ttf" />
     <None Include="WholeAppClassDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

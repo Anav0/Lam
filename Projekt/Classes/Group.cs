@@ -3,13 +3,8 @@ using Projekt.Classes;
 
 namespace Projekt
 {
-    public abstract class Group
+    public class Group
     {
-        protected Group()
-        {
-            Sessions = new List<Session>();
-            UniqueRequest = new List<Request>();
-        }
 
         #region Public Methods
 
@@ -37,18 +32,20 @@ namespace Projekt
 
         #region Public properties
 
-        public string Name { get; set; }
+        public string GivenName { get; set; }
 
         /// <summary>
         ///     Lista sesji znajdujących się we wczytanej grupie
         /// </summary>
-        public List<Session> Sessions { get; set; }
+        public List<Session> Sessions { get; set; } = new List<Session>();
 
         /// <summary>
         ///     Występujące typy żądań w danej grupie wraz z ich ilością
         /// </summary>
-        public List<Request> UniqueRequest { get; set; }
+        public List<Request> UniqueRequest { get; set; } = new List<Request>();
 
         #endregion
+
+    
     }
 }

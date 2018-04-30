@@ -15,5 +15,7 @@ namespace Projekt.GUI.UserControls
         }
 
         public PresentationScreenViewModel mViewModel { get; set; }
+
+
     }
 }

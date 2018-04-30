@@ -6,7 +6,7 @@
         <Setter Property="BorderThickness" Value="0 0 0 2" />
         <Setter Property="BorderBrush" Value="#AACCFF" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource DarkVioletForgroundColorBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource MainColorBrush}" />
 
 
         <Setter Property="FontWeight" Value="UltraLight" />

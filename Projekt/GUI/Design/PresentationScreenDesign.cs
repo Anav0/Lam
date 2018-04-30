@@ -20,7 +20,7 @@ namespace Projekt
                 OnlineMethodUsed = 20000,
                 OfflineMethodUsed = 1550
             };
-            ContentPresented = new Results(viewmodel);
+            ContentPresented = new ResultsControl(viewmodel);
         }
 
         public static PresentationScreenDesign Instance => new PresentationScreenDesign();

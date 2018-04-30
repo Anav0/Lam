@@ -1,8 +1,7 @@
-﻿using System;
-using Projekt.ViewModels;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
-using Projekt.Commands;
+using System.Linq;
+using Projekt.ViewModels;
 
 namespace Projekt
 {
@@ -11,10 +10,15 @@ namespace Projekt
         #region Public properties
 
         /// <summary>
-        /// Lista zapamiętanych plików do wyświetlenia
+        ///     Lista zapamiętanych plików do wyświetlenia
         /// </summary>
         public ObservableCollection<FileViewModel> List { get; set; } = new ObservableCollection<FileViewModel>();
 
         #endregion
+
+        public List<FileViewModel> GetSelected()
+        {
+            return List.Where(x => x.IsSelected).ToList();
+        }
     }
 }

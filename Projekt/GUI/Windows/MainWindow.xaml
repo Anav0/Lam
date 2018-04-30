@@ -4,95 +4,120 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="Projekt.GUI.Windows.MainWindow"
-             xmlns:projekt="clr-namespace:Projekt"
+    xmlns:projekt="clr-namespace:Projekt"
     mc:Ignorable="d"
-    Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen">
+    Title="Okno Główne" Height="600" Width="800" Background="White" WindowStartupLocation="CenterScreen" Closed="onClose">
     <DockPanel>
         <Border>
 
-            <Grid Background="{StaticResource Teal400ColorBrush}"
-                      x:Name="Menu"
-                      Margin="-280 0 0 0"
-                      Width="350">
+            <Grid Background="{StaticResource MainColorBrush}"
+                  x:Name="Menu"
+                  Margin="-280 0 0 0"
+                  Width="350">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!--Action buttons-->
+                <!--Actions section-->
                 <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0">
                     <Button Padding="15"
+                            FontSize="{StaticResource FontSizeRegular}"
                             HorizontalContentAlignment="Left"
-                                Foreground="White"
-                                Style="{StaticResource StandardOpacityButtonStyle}"
-                                Content="Wczytaj pliki testowe i stwórz DTMC"
-                                Command="{Binding GetDataFromFileCommand}" />
+                            Foreground="{StaticResource LightFontColorBrush}"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Wczytaj pliki i stwórz DTMC"
+                            Command="{Binding GetDataFromFileCommand}" />
 
                     <Button Padding="15"
                             HorizontalContentAlignment="Left"
+                            Foreground="{StaticResource LightFontColorBrush}"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Wczytaj plik do oceny"
+                            Command="{Binding GetDataFromFileCommand}"
+                            CommandParameter="Offline" />
 
-                                Foreground="White"
-                                Style="{StaticResource StandardOpacityButtonStyle}"
-                                Content="Wczytaj i poddaj ocenie offline"
-                                Command="{Binding GetDataFromFileCommand}"
-                                CommandParameter="Offline" />
                     <Button Padding="15"
+                            FontSize="{StaticResource FontSizeRegular}"
                             HorizontalContentAlignment="Left"
-                                Foreground="White"
-                                Style="{StaticResource StandardOpacityButtonStyle}"
-                                Content="Wczytaj i poddaj ocenie online"
-                                Command="{Binding GetDataFromFileCommand}"
-                                CommandParameter="Online" />
+                            Foreground="{StaticResource LightFontColorBrush}"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Oceń online zaznaczone pliki"
+                            Command="{Binding EvaluateSelectedFilesCommand}"
+                            CommandParameter="Online" />
+
+                    <Button Padding="15"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            HorizontalContentAlignment="Left"
+                            Foreground="{StaticResource LightFontColorBrush}"
+                            Style="{StaticResource StandardOpacityButtonStyle}"
+                            Content="Oceń offline zaznaczone pliki"
+                            Command="{Binding EvaluateSelectedFilesCommand}"
+                            CommandParameter="Offline" />
 
                 </StackPanel>
-                <Separator Background="White" Height="10" VerticalAlignment="Bottom" Grid.Column="0" Grid.Row="0" />
-                <!--<Button FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
-                            Content="{StaticResource FontAwesomInfoIcon}"
-                            Foreground="White"
-                            Margin="10,0,0,10"
-                            Command="{Binding ShpwAppInfoCommand}"
-                            FontFamily="{StaticResource FontAwesome}"
-                            VerticalAlignment="Bottom"
-                            HorizontalAlignment="Left" Grid.Row="1" />-->
 
-                <!--Remembered files list-->
-                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" >
-                    <Label Content="Wyniki poprzednich ocen"
-                               HorizontalAlignment="Left" 
-                           FontSize="16"
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Top"
-                               Padding="10"
-                                Foreground="White"/>
-                    <projekt:FilesListControl DataContext="{Binding SavedResultsData}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
-                    <Label Content="Stworzone DTMC"
-                           HorizontalAlignment="Left" 
-                           FontSize="16"
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Top"
-                           Padding="10"
-                           Foreground="White"/>
-                    <projekt:FilesListControl DataContext="{Binding SavedDTMCData}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0" Padding="0" />
-                </StackPanel>
+                <Grid  Grid.Row="1" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
+                    <!--Remembered files list-->
+                    <Border BorderThickness="4" BorderBrush="{StaticResource BackgroundColorBrush}" Grid.Row="0" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Padding="5"
+                                   FontWeight="DemiBold"
+                                   Grid.Row="0"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="{StaticResource LightFontColorBrush}"
+                                   Content="Zapamiętane oceny"/>
+                            <projekt:FilesListControl Grid.Row="1" DataContext="{Binding SavedResultsData}"
+                            />
+                        </Grid>
+                    </Border>
+                    <!--Remembered files list-->
+                    <Border BorderThickness="4" BorderBrush="{StaticResource BackgroundColorBrush}" Grid.Row="1" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Padding="5"
+                                   FontWeight="DemiBold"
+                                   Grid.Row="0"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="{StaticResource LightFontColorBrush}"
+                                   Content="Zapamiętane DTMC"/>
+                            <projekt:FilesListControl Grid.Row="1" DataContext="{Binding SavedDtmcData}"
+                            />
+                        </Grid>
+                    </Border>
+                </Grid>
 
                 <!--Menu expand button-->
-                <Button FontSize="30" Style="{StaticResource StandardOpacityButtonStyle}"
+                <Button FontSize="{StaticResource FontSizeXXLarge}" Style="{StaticResource StandardOpacityButtonStyle}"
                         Content="{StaticResource FontAwesomeMenuIcon}"
-                        Foreground="White"
+                        Foreground="{StaticResource LightFontColorBrush}"
                         Grid.Column="1"
                         Grid.Row="0"
-
                         FontFamily="{StaticResource FontAwesome}"
                         Command="{Binding ExpandMenuCommand}"
                         CommandParameter="{Binding ElementName=Menu}"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Center"
-                        Padding="10"/>
+                        Padding="10" Margin="12,0" />
             </Grid>
 
             <Border.Effect>
@@ -100,7 +125,7 @@
             </Border.Effect>
         </Border>
         <Grid DockPanel.Dock="Right">
-            <ContentPresenter Content="{Binding MainContent}" />
+            <ContentPresenter Content="{Binding MainScreenContent}" />
         </Grid>
     </DockPanel>
 </Window>
