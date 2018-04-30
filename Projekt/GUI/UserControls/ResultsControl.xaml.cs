@@ -6,9 +6,9 @@ namespace Projekt
     /// <summary>
     ///     Interaction logic for Results.xaml
     /// </summary>
-    public partial class Results : UserControl
+    public partial class ResultsControl : UserControl
     {
-        public Results(ResultsViewModel viewmodel)
+        public ResultsControl(ResultsViewModel viewmodel)
         {
             InitializeComponent();
             DataContext = viewmodel;

@@ -50,5 +50,7 @@ namespace Projekt.Classes
         public SessionTypes RealType { get; set; }
 
         #endregion
+
+      
     }
 }

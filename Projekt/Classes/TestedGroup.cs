@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Projekt.GUI.UserControls;
+using Projekt.ViewModels;
 
 namespace Projekt
 {
@@ -75,6 +77,53 @@ namespace Projekt
             else if (session.DetectionMethodUsed == DetectionType.Online) SumOnlineDetections++;
         }
 
+        public ResultsControl AsResultsControl()
+        {
+            var evaluator = new ModelEvaluation();
+
+            double k = Sessions[0].Kpercent;
+
+            var incorrectHitsProcent = (float)(WronglyAsHuman + WronglyAsRobot) / Sessions.Count * 100;
+            var correctHits = 100 - incorrectHitsProcent;
+            evaluator.EvaluateResults(this);
+
+            var resultsViewModel = new ResultsViewModel
+            {
+                FailurePercent = incorrectHitsProcent,
+                SuccessPercent = correctHits,
+                KPercent = k,
+                Delta = Delta,
+                SessionsCount = Sessions.Count,
+                OnlineMethodUsed = SumOnlineDetections,
+                OfflineMethodUsed = SumOfflineDetections,
+                MethodSelected = DetectionMethodSelected,
+                Recall = evaluator.Recall,
+                Precision = evaluator.Precision,
+                Measure = evaluator.Measure,
+                Accuracy = evaluator.Accuracy,
+                TrueNegative = evaluator.TrueNegative,
+                TruePositive = evaluator.TruePositive,
+                FalsePositive = evaluator.FalsePositive,
+                FalseNegative = evaluator.FalseNegative,
+                GivenName = GivenName
+            };
+
+            return new ResultsControl(resultsViewModel);
+
+        }
         #endregion
+
+        public void ClearResults()
+        {
+            CorrectlyAsRobot = 0;
+            CorrectlyAsHuman = 0;
+            WronglyAsRobot = 0;
+            WronglyAsHuman = 0;
+            HumanCount = 0;
+            RobotCount = 0;
+            SumOfflineDetections = 0;
+            SumOnlineDetections = 0;
+
+        }
     }
 }

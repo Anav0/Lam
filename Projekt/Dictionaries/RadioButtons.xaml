@@ -9,20 +9,23 @@
                     <BulletDecorator Background="Transparent" Cursor="Hand">
                         <BulletDecorator.Bullet>
                             <Grid Height="20" Width="20">
-                                <Border Name="RadioOuter" Background="Transparent" BorderBrush="DimGray" BorderThickness="2" CornerRadius="2" />
-                                <Border CornerRadius="0" Margin="4" Name="RadioMark" Background="{StaticResource Teal500ColorBrush}" Visibility="Hidden" />
+                                <Border Name="RadioOuter" Background="Transparent" BorderBrush="DimGray"
+                                        BorderThickness="2" CornerRadius="2" />
+                                <Border CornerRadius="0" Margin="4" Name="RadioMark"
+                                        Background="{StaticResource MainColorBrush}" Visibility="Hidden" />
                             </Grid>
                         </BulletDecorator.Bullet>
 
-                        <TextBlock Foreground="{StaticResource Teal500ColorBrush}" FontFamily="Calibri" FontSize="12">
+                        <TextBlock Foreground="{StaticResource MainColorBrush}" FontFamily="Calibri" FontSize="12">
                             <ContentPresenter />
                         </TextBlock>
                     </BulletDecorator>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="RadioOuter" Property="BorderBrush" Value="{StaticResource Teal500ColorBrush}" />
+                            <Setter TargetName="RadioMark" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="RadioOuter" Property="BorderBrush"
+                                    Value="{StaticResource MainColorBrush}" />
                         </Trigger>
 
                     </ControlTemplate.Triggers>

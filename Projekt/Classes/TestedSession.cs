@@ -12,20 +12,11 @@ namespace Projekt
         }
 
         #region Public properties
-
-        /// <summary>
-        ///     Przewidziany typ sesji R lub H
-        /// </summary>
+       
         public SessionTypes PredictedType { get; set; }
-
-        /// <summary>
-        ///     Procent żądań jakie mają zostać przepracowane aby dokonać oceny
-        /// </summary>
+       
         public float Kpercent { get; set; }
-
-        /// <summary>
-        ///     Liczba żądań jakie mają zostać przepracowane aby dokonać oceny
-        /// </summary>
+      
         public int K { get; set; }
 
         public int NumberOfRequests { get; set; }
@@ -36,19 +27,19 @@ namespace Projekt
 
         private float Result { get; set; }
 
-        /// <summary>
-        ///     Mówi nam czy sesja została zaklasyfikowana
-        /// </summary>
         public bool WasClassified { get; set; }
 
-        /// <summary>
-        ///     Metoda użyta do klasyfikacji
-        /// </summary>
         public DetectionType DetectionMethodUsed { get; set; }
 
         #endregion
 
         #region Public Methods
+
+        public void ClearResults()
+        {
+            PredictedType = SessionTypes.NotRecognized;
+            WasClassified = false;
+        }
 
         /// <summary>
         ///     Przeprowadza ocenę sesji po każdym nowym żądaniu
@@ -65,26 +56,16 @@ namespace Projekt
             foreach (var dtmc in listOfDtmc)
             {
                 if (Requests.Count == 1)
-                {
                     if (dtmc.Sessions[0].RealType == SessionTypes.Robot)
-                    {
                         Rresult += GetStartChanceValue(dtmc);
-                    }
                     else
-                    {
                         Hresult += GetStartChanceValue(dtmc);
-                    }
-                }
 
 
                 if (dtmc.Sessions[0].RealType == SessionTypes.Robot)
-                {
                     Rresult += GetLogPr(dtmc, Requests.Count - 1);
-                }
                 else
-                {
                     Hresult += GetLogPr(dtmc, Requests.Count - 1);
-                }
             }
 
 
@@ -116,13 +97,13 @@ namespace Projekt
         /// <summary>
         ///     Przeprowadza ocenę sesji na podstawie wszystkich jej żądań
         /// </summary>
-        /// <param name="ListOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
-        public void PerformOfflineDetection(List<DtmcGroup> ListOfDtmc)
+        /// <param name="listOfDtmc">DTMC na podstawie których zostanie dokonana ocena</param>
+        public void PerformOfflineDetection(List<DtmcGroup> listOfDtmc)
         {
             Rresult = 0;
             Hresult = 0;
 
-            foreach (var Dtmc in ListOfDtmc)
+            foreach (var Dtmc in listOfDtmc)
             {
                 Result = 0;
                 Result += GetStartChanceValue(Dtmc);
@@ -150,7 +131,8 @@ namespace Projekt
 
         private float GetStartChanceValue(DtmcGroup dtmc)
         {
-            float result = 0;
+            float result;
+
             try
             {
                 var firstElement = dtmc.UniqueRequest.Find(x => x.NameType == Requests[0]);
@@ -158,7 +140,7 @@ namespace Projekt
                 if (firstElement == null)
                     result = 0.00001f;
                 else
-                    result = firstElement.StarChances == 0 ? 0.00001f : (float)Math.Log10(firstElement.StarChances);
+                    result = firstElement.StarChances == 0 ? 0.00001f : (float) Math.Log10(firstElement.StarChances);
             }
             catch (ArgumentNullException ex)
             {
@@ -186,7 +168,7 @@ namespace Projekt
 
             if (result == 0) result += 0.00001f;
 
-            result += (float)Math.Log10(result);
+            result += (float) Math.Log10(result);
 
             return result;
         }

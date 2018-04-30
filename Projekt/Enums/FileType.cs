@@ -1,8 +1,6 @@
-﻿
-
-namespace Projekt
+﻿namespace Projekt
 {
-    enum FileType
+    internal enum FileType
     {
         Json,
         Xml,

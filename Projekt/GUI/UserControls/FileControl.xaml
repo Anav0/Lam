@@ -8,65 +8,72 @@
              mc:Ignorable="d"
              d:DesignHeight="75" d:DesignWidth="250">
 
-    <Grid Background="GhostWhite" d:DataContext="{x:Static design:FileDesign.Instance}">
+    <Grid Background="{StaticResource BackgroundColorBrush}" d:DataContext="{x:Static design:FileDesign.Instance}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="30"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
         </Grid.ColumnDefinitions>
 
-        <Button 
+        <Button
+            Cursor="Hand"
             Grid.Column="0"
             FontSize="20" Style="{StaticResource StandardOpacityButtonStyle}"
-                Content="{StaticResource FontAwsomeCross}"
-                Foreground="{StaticResource Teal400ColorBrush}"
-                FontFamily="{StaticResource FontAwesome}"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Center"
-            Command="{Binding DeleteCommand}"/>
+            Content="{StaticResource FontAwsomeCross}"
+            Foreground="{StaticResource MainColorBrush}"
+            FontFamily="{StaticResource FontAwesome}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Command="{Binding DeleteCommand}" />
         <StackPanel Orientation="Vertical" VerticalAlignment="Center" Grid.Column="1">
-            <TextBox Text="{Binding FileName}" FontSize="12" 
-                         BorderThickness="0"
-                   Foreground="{StaticResource DarkOuterSpaceColorBrush}"
+            <TextBox Text="{Binding FileName}" FontSize="{StaticResource FontSizeRegular}"
+                     BorderThickness="0"
+                     Foreground="{StaticResource DarkFontColorBrush}"
                      Background="Transparent"
-                   HorizontalContentAlignment="Left"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Top"/>
-            <Label 
-                   ToolTip="{Binding FilePath}"
-                   HorizontalContentAlignment="Left"
-                   FontSize="12"
-                   Foreground="DimGray"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Bottom">
-                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding FilePath}"/>
+                     HorizontalContentAlignment="Left"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top" />
+            <Label
+                Cursor="Hand"
+                ToolTip="{Binding FilePath}"
+                HorizontalContentAlignment="Left"
+                FontSize="{StaticResource FontSizeSmall}"
+                Foreground="DimGray"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom">
+                <Label.InputBindings>
+                    <MouseBinding Command="{Binding OpenDirectoryCommand}" MouseAction="LeftClick"/>
+                </Label.InputBindings>
+                <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding FilePath}" />
             </Label>
         </StackPanel>
-        <GridSplitter Grid.Column="1"  />
+        <GridSplitter Grid.Column="1" />
 
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <RadioButton
-                Background="{StaticResource Teal500ColorBrush}"
-                Foreground="{StaticResource Teal500ColorBrush}"
+            <CheckBox
+                Cursor="Hand"
+                Background="{StaticResource MainColorBrush}"
+                Foreground="{StaticResource MainColorBrush}"
                 IsChecked="{Binding IsSelected}"
-               BorderBrush="{StaticResource Teal500ColorBrush}"
+                BorderBrush="{StaticResource MainColorBrush}"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center" Grid.Row="0" />
 
-            <Button FontSize="15" Style="{StaticResource StandardOpacityButtonStyle}"
+            <Button
+                Cursor="Hand"
+                FontSize="15" Style="{StaticResource StandardOpacityButtonStyle}"
                     Padding="0"
-                Content="{StaticResource FontAwesomeSearchIcon}"
-                Foreground="{StaticResource Teal400ColorBrush}"
-                        ToolTip="Pokaż zapisane dane"
-                FontFamily="{StaticResource FontAwesome}"
+                    Content="{StaticResource FontAwesomeSearchIcon}"
+                    Foreground="{StaticResource MainColorBrush}"
+                    ToolTip="Pokaż zapisane dane"
+                    FontFamily="{StaticResource FontAwesome}"
                     Command="{Binding ShowDataCommand}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center" Grid.Row="1"
-                />
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Grid.Row="1" />
         </Grid>
     </Grid>
 

@@ -10,7 +10,7 @@
 
     <ItemsControl d:DataContext="{x:Static projekt:MenuDesignModel.Instance}"
                   ItemsSource="{Binding Items}"
-                  Background="White">
+                  Background="{StaticResource BackgroundColorBrush}">
 
         <!-- Item template -->
         <ItemsControl.ItemTemplate>
@@ -22,7 +22,7 @@
                                 Grid.ColumnSpan="2">
                         <!-- Header text -->
                         <TextBlock Text="{Binding Text}"
-                                   FontSize="16"
+                                   FontSize="{StaticResource FontSizeRegular}"
                                    Padding="0 5 10 5"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
@@ -45,7 +45,7 @@
                             <EventTrigger RoutedEvent="Button.MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="{StaticResource Teal500Color}"
+                                        <ColorAnimation To="{StaticResource MainColor}"
                                                         Storyboard.TargetProperty="Background.Color"
                                                         Duration="0:0:0.10" />
 
@@ -70,13 +70,13 @@
                                                         Storyboard.TargetProperty="Background.Color"
                                                         Duration="0:0:0.10" />
 
-                                        <ColorAnimation To="{StaticResource Teal500Color}"
+                                        <ColorAnimation To="{StaticResource MainColor}"
                                                         Storyboard.TargetName="icon"
                                                         Storyboard.TargetProperty="Foreground.Color"
                                                         Duration="0:0:0.10" />
 
 
-                                        <ColorAnimation To="{StaticResource DarkOuterSpaceColor}"
+                                        <ColorAnimation To="{StaticResource DarkFontColor}"
                                                         Storyboard.TargetName="text"
                                                         Storyboard.TargetProperty="Foreground.Color"
                                                         Duration="0:0:0.10" />
@@ -105,15 +105,15 @@
                                        FontFamily="{StaticResource FontAwesome}"
                                        Text="{Binding Icon, Converter={projekt:IconTypeToFontAwesomeConverter}}"
                                        Background="Transparent"
-                                       Foreground="{StaticResource Teal500ColorBrush}"
-                                       FontSize="16" />
+                                       Foreground="{StaticResource MainColorBrush}"
+                                       FontSize="{StaticResource FontSizeRegular}" />
 
                             <!-- Text -->
                             <TextBlock Name="text"
                                        Grid.Column="1"
                                        Margin="5 0 5 0"
-                                       Foreground="{StaticResource DarkOuterSpaceColorBrush}"
-                                       FontSize="16"
+                                       Foreground="{StaticResource DarkFontColorBrush}"
+                                       FontSize="{StaticResource FontSizeRegular}"
                                        VerticalAlignment="Center"
                                        Background="Transparent"
                                        Text="{Binding Text}" />
