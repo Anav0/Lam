@@ -151,13 +151,9 @@ namespace Projekt
                         }
 
                         var fileViewModel = selectedResults[index];
-<<<<<<< HEAD
                         fileViewModel.WasEvaluated = true;
-=======
-
->>>>>>> master
                         DisplayResults(testedGroup);
-                        StoreGroup(testedGroup, fileViewModel.FilePath);
+                        //StoreGroup(testedGroup, fileViewModel.FilePath);
                         index++;
                     }
                    
@@ -167,28 +163,16 @@ namespace Projekt
                 {
                     MessageBox.Show("Nie podano prawidłowego argumentu", "Błąd",
                         MessageBoxButton.OK, MessageBoxImage.Error);
-<<<<<<< HEAD
-=======
-                    return;
->>>>>>> master
                 }
                 catch (FormatException)
                 {
                     MessageBox.Show("Podano zły typ danych", "Błąd",
                         MessageBoxButton.OK, MessageBoxImage.Error);
-<<<<<<< HEAD
-=======
-                    return;
->>>>>>> master
                 }
                 catch (OverflowException overEx)
                 {
                     MessageBox.Show(overEx.Message, "Błąd",
                         MessageBoxButton.OK, MessageBoxImage.Error);
-<<<<<<< HEAD
-=======
-                    return;
->>>>>>> master
                 }
             }
             else if ((string)obj == "Offline")
@@ -207,13 +191,9 @@ namespace Projekt
                         testedGroup.CalculateQuantities(session);
                     }
                     var fileViewModel = selectedResults[index];
-<<<<<<< HEAD
                     fileViewModel.WasEvaluated = true;
-=======
-
->>>>>>> master
                     DisplayResults(testedGroup);
-                    StoreGroup(testedGroup, fileViewModel.FilePath);
+                    //StoreGroup(testedGroup, fileViewModel.FilePath);
                     index++;
                 }
             }
@@ -313,21 +293,13 @@ namespace Projekt
 
             if (group.GetType() == typeof(TestedGroup))
             {
-<<<<<<< HEAD
                 var tsGroup = group as TestedGroup;
-
-                fileViewModel.FileName = group.GivenName;
-                fileViewModel.Parent = SavedResultsData;
-                fileViewModel.Represents = FileControlRepresents.SavedResults;
                 fileViewModel.WasEvaluated = tsGroup.Sessions.Exists(x => x.WasClassified);
 
-                if (isNewFile) SavedResultsData.List.Add(fileViewModel);
-=======
                 fileViewModel.FileName = group.GivenName;
                 fileViewModel.Parent = SavedResultsData;
                 fileViewModel.Represents = FileControlRepresents.SavedResults;
-                if(isNewFile) SavedResultsData.List.Add(fileViewModel);
->>>>>>> master
+                if (isNewFile) SavedResultsData.List.Add(fileViewModel);
                 serializer.WriteToJsonFile(pathToFIle, group as TestedGroup);
 
             }
@@ -365,13 +337,10 @@ namespace Projekt
 
                 if (loadedGroup.GetType() == typeof(TestedGroup))
                 {
-<<<<<<< HEAD
                     var tsGroup = loadedGroup as TestedGroup;
                     viewModel.Parent = SavedResultsData;
                     viewModel.WasEvaluated = tsGroup.Sessions.Exists(x => x.WasClassified);
-=======
                     viewModel.Parent = SavedResultsData;
->>>>>>> master
                     SavedResultsData.List.Add(viewModel);
                     viewModel.Represents = FileControlRepresents.SavedResults;
                 }
@@ -429,13 +398,6 @@ namespace Projekt
                 }
 
                 thisGroup.AddSession(session);
-<<<<<<< HEAD
-
-
-=======
-
-
->>>>>>> master
                 thisGroup.UniqueRequest.Sort((x, y) =>
                     string.Compare(x.NameType, y.NameType, StringComparison.Ordinal));
             }
