@@ -22,17 +22,16 @@ namespace Projekt.Classes
         /// <param name="request">Nazwa żądania</param>
         public void AddRequest(string request)
         {
-            if (!string.IsNullOrEmpty(request))
-            {
-                request = request.First().ToString().ToUpper() + request.Substring(1);
+            if (string.IsNullOrEmpty(request)) return;
 
-                if (request == "H")
-                    RealType = SessionTypes.Human;
-                else if (request == "R")
-                    RealType = SessionTypes.Robot;
-                else
-                    Requests.Add(request);
-            }
+            request = request.First().ToString().ToUpper() + request.Substring(1);
+
+            if (request == "H")
+                RealType = SessionTypes.Human;
+            else if (request == "R")
+                RealType = SessionTypes.Robot;
+            else
+                Requests.Add(request);
         }
 
         #endregion
